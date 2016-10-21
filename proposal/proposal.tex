@@ -1,0 +1,126 @@
+%-----------------------------------------------------------------------------
+%               Template for OOPSLA
+%               based on:
+%               Template for sigplanconf LaTeX Class
+%
+% Name:         sigplanconf-template.tex
+%
+% Purpose:      A template for sigplanconf.cls, which is a LaTeX 2e class
+%               file for SIGPLAN conference proceedings.
+%
+% Guide:        Refer to "Author's Guide to the ACM SIGPLAN Class,"
+%               sigplanconf-guide.pdf
+%
+% Author:       Paul C. Anagnostopoulos
+%               Windfall Software
+%               978 371-2316
+%               paul@windfall.com
+%
+% Created:      15 February 2005
+%
+%-----------------------------------------------------------------------------
+
+
+\documentclass[10pt,numbers]{sigplanconf}
+%\usepackage[final]{oopsla2016}
+
+% The following oopsla2016 options are available:
+%
+% 1stsubmission   For the initial submission
+% 2ndsubmission   For the 2nd submission
+% final           For camera-ready
+
+\usepackage{amsmath}
+%\usepackage{mathpartir}
+\usepackage{xcolor}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{listings}
+\usepackage{xspace}
+\usepackage{hyperref}
+\usepackage{flushend}
+\usepackage[inline]{enumitem}
+
+
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{definition}{Definition}
+\theoremstyle{definition}
+\newtheorem{exmp}{Example}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+
+
+%\newenvironment{ppl}{\fontfamily{qcr}\selectfont}{\par}
+
+% \DeclareCaptionFormat{myformat}{#1#2#3\hrulefill}
+% \captionsetup[figure*]{format=myformat}
+
+
+%\input{macros}
+
+%aggressive tightening of lists.
+\setlist{noitemsep}%\setlist{nosep}
+
+\newenvironment{DIFnomarkup}{}{}
+\begin{document}
+
+\allowdisplaybreaks[1]
+
+%\copyrightdata{978-1-nnnn-nnnn-n/yy/mm} 
+%\doi{nnnnnnn.nnnnnnn}
+
+% Uncomment one of the following two, if you are not going for the 
+% traditional copyright transfer agreement.
+
+%\exclusivelicense                % ACM gets exclusive license to publish, 
+                                  % you retain copyright
+
+%\permissiontopublish             % ACM gets nonexclusive license to publish
+                                  % (paid open-access papers, 
+                                  % short abstracts)
+%\publicationrights{licensed}
+
+\title{Ethereum Blockchain Compression}
+\authorinfo{Anitha Gollamudi \and Yihe Huang}{Harvard University, Cambridge, MA, USA}{agollamudi@g.harvard.edu \and yihehuang@g.harvard.edu}
+\maketitle
+\begin{abstract}
+Blah..blah
+\end{abstract}
+
+
+% % general terms are not compulsory anymore, 
+% % you may leave them out
+% \terms
+% term1, term2
+
+\section{Introduction} \label{sec:intro}
+\input{introduction}
+
+
+
+\section{Evaluation}\label{sec:evaluation}
+
+\section{Related Work} \label{sec:related}
+
+%\section{Conclusion} \label{sec:conclusion}
+
+% We recommend abbrvnat bibliography style.
+
+\section*{Acknowledgments}
+
+\bibliography{mybib}
+\bibliographystyle{abbrvnat}
+
+\appendix
+
+\end{document}
+
+%                       Revision History
+%                       -------- -------
+%  Date         Person  Ver.    Change
+%  ----         ------  ----    ------
+
+%  2013.06.29   TU      0.1--4  comments on permission/copyright notices
+
+,
