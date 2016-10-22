@@ -27,7 +27,7 @@ Both types have the following common fields:
   \item[nonce:] A scalar value representing number of transactions associated with this account
   \item[gasPrice:] Default value is 0.02e12 Wei. Though clients can set their own gasPrice, most of the transactions use default value suggesting the high probability of its occurance.
   \item[gasLimit:] Maximum gas that can be used for executing this transaction
-  \item[to:] Receiver's 160-bit address
+  \item[to:] Receiver's 160-bit address. For contract creation, a special symbol $\phi$ is used.
   \item[value:] Wei being transferred to the receipient.
   \item[v,r,s:] v =\{27,28\} and so can be efficiently encoded.
 \end{description}
@@ -35,7 +35,11 @@ Both types have the following common fields:
 Additionally, contract creation has \textbf{init} field containing EVM-bytecode for initializing the contract.
 We propose to compress the EVM bytecode using techniques presented in Section~\ref{sec:evmcompress}. 
 
-Message call transaction has \textbf{data} field containing the inputs of the message call.
+Message call transaction has \textbf{data} field containing the inputs of the message call which includes methodid and arguments to the method being invoked.
+Though the size is unlimited, existing transactions suggest that the input field has a high number of 0's~\cite{ethtx}. 
+This is because ethereum uses 256-bit big integers but most of the transactions limit themselves to using 64-bit integers. 
+This suggests some improvement possibilities.
+
 
 %\input{evmintro}
 
