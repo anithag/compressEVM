@@ -13,21 +13,57 @@ There are two kinds of ethereum accounts:
 Contract accounts are special accounts containing the smart contracts in bytecode format. They comprise around $25\%$ of the entire ethereum accounts.~\footnote{
 At the time of writing, number of EOA and contract accounts are 555,043 and 197,261 respectively.}  
  
-Ethereum blockchain is growing at a rate 1.2GB/month~\cite{ethdiskspace}.
-As of June 2016, the space required by blockchain is as high as 61GB.
+Currently there are around 2,488,503 blocks with block size ranging between 1.5KB to 12.5KB~\cite{ethblocksize}.  
+The blockchain is growing at a rate 1.2GB/month and
+the space required by blockchain is as high as 60GB~\cite{ethdiskspace}.
 Compressing the blockchain can therefore be useful for full nodes that download the entire blockchain.
 
-In this project, we propose to compress the entire ethereum blockchain. 
-Although compressing blocks (and hence transactions) also involves EVM bytecode compression, 
-we view them as complementary tasks. 
+In this project, we propose to compress the entire ethereum blockchain by leveraging the domain-specific information.
+One could use the general-purpose compression software (e.g., gzip, bzip2, 7z) and compress the blockchain.
+But these programs cannot exploit certain properties that are specific to blockchain and thus do not offer optimal outputs.
+Our goal is to come-up with compression techniques that  are specialized for blockchain.
+While we aim to provide a comparative study, we do not conjecture that our compression algorithm always outperforms the existing mature compressors.
+We believe that the insights can be added as an extension to be able to get effective compression rates.   
+
+Blockchain compression involves compressing each block.
+Although compressing a block (and hence transactions) also includes compressing EVM bytecode, 
+for the sake of exposition we view them as complementary tasks. 
 In particular techniques to compress bytecode are orthogonal to techniques for compressing other fields of transaction.
-Section~\ref{sec:blockcompress} and 
-Section~\ref{sec:evmcompress}  
-outline the methodology for compressing the blocks and EVM bytecode.
+In Section~\ref{sec:blockcompress} and 
+Section~\ref{sec:evmcompress}, we   
+outline the opportunities for compressing ethereum block and EVM bytecode. 
 
-\subsection{Blockchain Compression}\label{sec:blockcompress}
+\subsection{Ethereum Block Compression}\label{sec:blockcompress}
 
-A block is comprised of block header and a series of transactions. A transaction is a signed message.
+A block is comprised of a block header, ommer (parent) block headers and a series of transactions. 
+A block header contains: 
+
+\begin{description}
+ \item[parentHash:] 
+ \item[ommersHash:]  Keccak 256-bit hash.
+ \item[stateRoot:]  
+ \item[transactionsRoot:]
+ \item[beneficiary:]160-bit address.
+ \item[logsBloom:] Bloom filter for log entries.
+ \item[difficulty:] Can be computed from previous block using the formula
+	\begin{multline*}
+	D_{c} = D_{p} + \frac{D_{p}}{2048 * max(\frac{(1 - (timestamp_{c} - timestamp_{p}))}{10}, -99)}\\ + 2^{\frac{\#block}{100000} - 2}
+        \end{multline*}
+	where subscripts $c$ and $p$ denote current and parent blocks respectively. 
+ This suggests the possibility of saving bits without having to store difficulty for all blocks.
+ \item[number:] Number of ancestor blocks
+ \item[gasLimit:] Scalar value limiting the gas expenditure
+ \item[gasUsed:] Scalar value indicating the total gas used by all transactions in the block. This information can encoded efficiently.
+ \item[timestamp:]
+ \item[extraData:]
+ \item[mixHash:] 256-bit hash
+ \item[nonce:] 64-bit hash
+\end{description}
+
+An efficient encoder can exploit that \textbf{difficulty} and \textbf{gasUsed} can computed on the fly and therefore save around 512 bits of information per block(Recall that ethereum uses 256-bit integers by default).  
+
+We now describe ethereum transactions and the opportunities for compression.
+A transaction is a signed message.
 There are two types of transactions: those resulting in message calls and those which result in creating new contracts.
 Both types have the following common fields:
 \begin{description}
