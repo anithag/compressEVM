@@ -17,8 +17,7 @@ Both types have the following common fields:
 Contract creation has \textbf{init} field containing EVM-bytecode for initializing the contract.
 Message call transaction has \textbf{data} field containing the inputs of the message call.
 
-Ethereum blockchain is growing at a rate 1.2GB/month.
-%\cite{ethdiskspace}.
+Ethereum blockchain is growing at a rate 1.2GB/month~\cite{ethdiskspace}.
 As of June 2016, the space required by blockchain is as high as 61GB.
 Compressing the blockchain can therefore be useful for full nodes that downloading the entire blockchain.
 
@@ -29,11 +28,5 @@ outline the methodology for compressing the blocks and EVM byte code.
 
 \subsection{Blockchain Compression}\label{sec:blockcompress}
 
+%\input{evmintro}
 
-\subsection{EVM ByteCode Compression}\label{sec:evmcompress}
-
-Assigning optimal byte codes can reduce the storage for byte code.
-%\cite{aslam2010}. 
-The EVM can be modified to directly execute the compressed byte code.
-%\cite{latendresse2003}.
-Write any novel contributions here.
