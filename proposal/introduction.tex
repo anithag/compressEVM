@@ -20,7 +20,8 @@ Compressing the blockchain can therefore be useful for full nodes that download 
 
 In this project, we propose to compress the entire ethereum blockchain by leveraging the domain-specific information.
 One could use the general-purpose compression software (e.g., gzip, bzip2, 7z) and compress the blockchain.
-But these programs cannot exploit certain properties that are specific to blockchain and thus do not offer optimal outputs.
+However, a majority of blockchain contains 256-bit hashes which, if we assume are perfectly random, will be hard to compress.
+Also these programs cannot exploit certain properties that are specific to blockchain and thus do not offer optimal outputs.
 Our goal is to come-up with compression techniques that  are specialized for blockchain.
 While we aim to provide a comparative study, we do not conjecture that our compression algorithm always outperforms the existing mature compressors.
 We believe that the insights can be added as an extension to be able to get effective compression rates.   
@@ -60,7 +61,7 @@ A block header contains:
  \item[nonce:] 64-bit hash
 \end{description}
 
-An efficient encoder can exploit that \textbf{difficulty} and \textbf{gasUsed} can computed on the fly and therefore save around 512 bits of information per block(Recall that ethereum uses 256-bit integers by default).  
+An efficient encoder can exploit that \textbf{difficulty} and \textbf{gasUsed} can computed on the fly and therefore save around 512 bits of information per block (Recall that ethereum uses 256-bit integers by default).  
 
 We now describe ethereum transactions and the opportunities for compression.
 A transaction is a signed message.
