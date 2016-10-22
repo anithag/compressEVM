@@ -1,32 +1,40 @@
 
 Ethereum is a public blockchain based cryptocurrency and supports Turing-complete smart contracts~\cite{ethereum}.
 The blockchain maintains a list of records, called \emph{blocks} and serves as a ledger for all transactions.
-A block is comprised of block headers and a series of transactions. A transaction is a signed message.
-There are two types of transactions: those resulting in message calls and those which result
- in creating new contracts.
-Both types have the following common fields:
-\begin{description}
-  \item[nonce:]
-  \item[gasPrice:]
-  \item[gasLimit:]
-  \item[to:]
-  \item[value:]
-  \item[v,r,s:]
-\end{description}
-
-Contract creation has \textbf{init} field containing EVM-bytecode for initializing the contract.
-Message call transaction has \textbf{data} field containing the inputs of the message call.
-
+The value token of the blockchain is called \emph{ether} and 
+is traded in cryptocurrency exchanges.
+Clients use ether to pay for executing and maintaining the transactions.~\footnote{
+\emph{Finney}, \emph{Szabo}, and \emph{Wei} are the denominations of ether.}
+ 
 Ethereum blockchain is growing at a rate 1.2GB/month~\cite{ethdiskspace}.
 As of June 2016, the space required by blockchain is as high as 61GB.
 Compressing the blockchain can therefore be useful for full nodes that downloading the entire blockchain.
 
-Although compressing blocks also involves EVM bytecode compression, we view them as logically separate tasks.
+In this project, we propose to compress the entire ethereum blockchain. 
+Although compressing blocks also involves EVM bytecode compression, 
+we view them as complementary to one another.
 Section~\ref{sec:blockcompress} and 
 Section~\ref{sec:evmcompress}  
 outline the methodology for compressing the blocks and EVM byte code.
 
 \subsection{Blockchain Compression}\label{sec:blockcompress}
+
+A block is comprised of block header and a series of transactions. A transaction is a signed message.
+There are two types of transactions: those resulting in message calls and those which result in creating new contracts.
+Both types have the following common fields:
+\begin{description}
+  \item[nonce:] A scalar value representing number of transactions associated with this account
+  \item[gasPrice:] Default value is 0.02e12 Wei. Though clients can set their own gasPrice, most of the transactions use default value suggesting the high probability of its occurance.
+  \item[gasLimit:] Maximum gas that can be used for executing this transaction
+  \item[to:] Receiver's 160-bit address
+  \item[value:] Wei being transferred to the receipient.
+  \item[v,r,s:] v =\{27,28\} and so can be efficiently encoded.
+\end{description}
+
+Additionally, contract creation has \textbf{init} field containing EVM-bytecode for initializing the contract.
+We propose to compress the EVM bytecode using techniques presented in Section~\ref{sec:evmcompress}. 
+
+Message call transaction has \textbf{data} field containing the inputs of the message call.
 
 %\input{evmintro}
 
