@@ -8,15 +8,15 @@ benefit of using Huffman codes is that we can modify the EVM to directly execute
 without decoding the entire bytecode stream first. It, however, raises the challenge of making program counter modifications work
 correctly, because now instructions are variable-length encoded.
 
-Huffman codes reduce the size of individual instruction encoding, but don't take advantage of repeatitive patterns in the bytecode.
+Huffman codes reduce the size of individual instruction encoding, but do not take advantage of repetitive patterns in the bytecode.
 A dictionary-based or grammar-based compression scheme can further reduce redundant information in the bytecode.
-General-purpose compression algorithms like the LZ-family Sequitur might just work,
+General-purpose compression algorithms like the LZ-family or Sequitur might just work,
 but likely not optimal, because of the structure of bytecode.
 For example, some instructions take operands, sometimes very long operands.
 Long operands usually just look like random bits and are much harder to compress than the opcodes, which typically appear in patterns.
 These long operands may confuse general-purpose compress algorithms, resulting in sub-optimal results.
 We aim to devise a domain-specific compression scheme for EVM bytecode that can achieve better compression rates
-by separating operands the opcodes.
+by treating operands the opcodes separately.
 
 Assigning optimal byte codes can reduce the storage for byte code~\cite{aslam2010}.
 The EVM can be modified to directly execute the compressed byte code~\cite{marc2003,evans2003}.
