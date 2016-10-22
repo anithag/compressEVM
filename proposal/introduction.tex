@@ -5,6 +5,13 @@ The value token of the blockchain is called \emph{ether} and
 is traded in cryptocurrency exchanges.
 Clients use ether to pay for executing and maintaining the transactions.~\footnote{
 \emph{Finney}, \emph{Szabo}, and \emph{Wei} are the denominations of ether.}
+There are two kinds of ethereum accounts: 
+\begin{enumerate*}
+	\item Externally owned accounts (EOA) and
+	\item Contract accounts.
+\end{enumerate*}
+Contract accounts are special accounts containing the smart contracts in bytecode format. They comprise around $25\%$ of the entire ethereum accounts.~\footnote{
+At the time of writing, number of EOA and contract accounts are 555,043 and 197,261 respectively.}  
  
 Ethereum blockchain is growing at a rate 1.2GB/month~\cite{ethdiskspace}.
 As of June 2016, the space required by blockchain is as high as 61GB.
@@ -28,8 +35,8 @@ Both types have the following common fields:
   \item[gasPrice:] Default value is 0.02e12 Wei. Though clients can set their own gasPrice, most of the transactions use default value suggesting the high probability of its occurance.
   \item[gasLimit:] Maximum gas that can be used for executing this transaction
   \item[to:] Receiver's 160-bit address. For contract creation, a special symbol $\phi$ is used.
-  \item[value:] Wei being transferred to the receipient.
-  \item[v,r,s:] v =\{27,28\} and so can be efficiently encoded.
+  \item[value:] Wei being transferred to the recipient.
+  \item[v,r,s:] v =\{27, 28\} and so can be efficiently encoded.
 \end{description}
 
 Additionally, contract creation has \textbf{init} field containing EVM-bytecode for initializing the contract.
@@ -38,7 +45,7 @@ We propose to compress the EVM bytecode using techniques presented in Section~\r
 Message call transaction has \textbf{data} field containing the inputs of the message call which includes methodid and arguments to the method being invoked.
 Though the size is unlimited, existing transactions suggest that the input field has a high number of 0's~\cite{ethtx}. 
 This is because ethereum uses 256-bit big integers but most of the transactions limit themselves to using 64-bit integers. 
-This suggests some improvement possibilities.
+This suggests that small numbers can be encoded efficiently.
 
 
 %\input{evmintro}
