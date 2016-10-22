@@ -63,9 +63,12 @@ A block header contains:
 
 An efficient encoder can exploit that \textbf{difficulty} and \textbf{gasUsed} can computed on the fly and therefore save around 512 bits of information per block (Recall that ethereum uses 256-bit integers by default).  
 
-We now describe ethereum transactions and the opportunities for compression.
-A transaction is a signed message.
-There are two types of transactions: those resulting in message calls and those which result in creating new contracts.
+A block is comprised of block header and a series of transactions. A transaction is a signed message. The block headers mainly
+contain cryptographic hashes and are therefore not compressable. The block hashes, however, have a fixed number of leading zeros and
+can therefore be encoded more efficiently.
+
+Transactions are much more compressible and can be a major source of compression gains.
+There are two types of transactions: {\em Contract Creation} transactions and {\em Message Call} transactions.
 Both types have the following common fields:
 \begin{description}
   \item[nonce:] A scalar value representing number of transactions associated with this account
@@ -76,12 +79,12 @@ Both types have the following common fields:
   \item[v,r,s:] v =\{27, 28\} and so can be efficiently encoded.
 \end{description}
 
-Additionally, contract creation has \textbf{init} field containing EVM-bytecode for initializing the contract.
-We propose to compress the EVM bytecode using techniques presented in Section~\ref{sec:evmcompress}. 
+Additionally, a Contract Creation transaction has an \textbf{init} field containing the EVM bytecode for initializing the contract.
+We propose to compress the EVM bytecode using techniques presented in Section~\ref{sec:evmcompress}.
 
-Message call transaction has \textbf{data} field containing the inputs of the message call which includes methodid and arguments to the method being invoked.
-Though the size is unlimited, existing transactions suggest that the input field has a high number of 0's~\cite{ethtx}. 
-This is because ethereum uses 256-bit big integers but most of the transactions limit themselves to using 64-bit integers. 
+A Message Call transaction has \textbf{data} field contains the inputs of the message call: a method ID and parameters supplied to the invoked method.
+Existing transactions suggest that most of the inputs are going to a high number of 0's~\cite{ethtx}. 
+This is because Ethereum uses 256-bit big integers, but most of the transactions limit themselves to using 64-bit integers.
 This suggests that small numbers can be encoded efficiently.
 
 
