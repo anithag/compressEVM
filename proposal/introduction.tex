@@ -8,14 +8,15 @@ Clients use ether to pay for executing and maintaining the transactions.~\footno
  
 Ethereum blockchain is growing at a rate 1.2GB/month~\cite{ethdiskspace}.
 As of June 2016, the space required by blockchain is as high as 61GB.
-Compressing the blockchain can therefore be useful for full nodes that downloading the entire blockchain.
+Compressing the blockchain can therefore be useful for full nodes that download the entire blockchain.
 
 In this project, we propose to compress the entire ethereum blockchain. 
-Although compressing blocks also involves EVM bytecode compression, 
-we view them as complementary to one another.
+Although compressing blocks (and hence transactions) also involves EVM bytecode compression, 
+we view them as complementary tasks. 
+In particular techniques to compress bytecode are orthogonal to techniques for compressing other fields of transaction.
 Section~\ref{sec:blockcompress} and 
 Section~\ref{sec:evmcompress}  
-outline the methodology for compressing the blocks and EVM byte code.
+outline the methodology for compressing the blocks and EVM bytecode.
 
 \subsection{Blockchain Compression}\label{sec:blockcompress}
 
