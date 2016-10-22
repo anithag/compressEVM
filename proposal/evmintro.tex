@@ -1,9 +1,9 @@
 
 \subsection{EVM ByteCode Compression}\label{sec:evmcompress}
 
-There are several ways we can compress EVM bytecode. Huffman encoding is probably the most straightforward
-way of reducing bytecode size. By using Huffman encoding, we essentially compress instructions individually
-by minimizing the number of bits taken by each opcode given how frequently they are being used. One potential
+There are several ways to compress EVM bytecode. Huffman encoding is probably the most straightforward
+way to reduce bytecode size. By using Huffman encoding, we essentially compress instructions individually
+by minimizing the number of bits taken by each opcode given how frequently they appear. One potential
 benefit of using Huffman codes is that we can modify the EVM to directly execute the compressed bytecode,
 without decoding the entire bytecode stream first. It, however, raises the challenge of making program counter modifications work
 correctly, because now instructions are variable-length encoded.
