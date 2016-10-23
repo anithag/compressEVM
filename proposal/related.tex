@@ -6,7 +6,11 @@ surprisingly very little effort is seen towards compressing the size of the bloc
 Much effort is focused on changing the underlying protocol so that clients
 do not have to store and process the full blockchain to verify the transactions~\cite{lightclient, ultimate}.
 By contrast, we focus on compressing the blockchain without changing the underlying protocol.
-We aren't aware of any special techniques for that are already implemented in this direction.
+\emph{Merkelized Abstract Syntax Trees} (MAST) have been proposed to reduce the the amount of script included in redemption
+type of Bitcoin transactions~\cite{mast}. 
+However, this seems to be a issue specific to Bitcoin protocol.  
+Ethereum does not include any scripts in message call transactions and so  MAST structures are probably not helpful.
+To the best of our knowledge, we aren't aware of any other special blockchain compression techniques that are already implemented. 
 
 
 \paragraph{Bytecode Compression}
@@ -47,8 +51,8 @@ both simpler and more complex at the same time, potentially requiring some speci
 with simple global unstructured states and therefore doesn't have special field addressing instructions like JVM does.
 This means that operands to EVM bytecode instructions are always data that's being pushed or compared to values stored on
 the stack, but not meta-values that have implicit meanings in the interpretation of the program.
-Due to the cryptographic nature of Ethereum, however, EVM bytecode might need to deal with operand immediate values that
-represent Ethereum addresses, which are long cryptographic hash values and hence not compressible. All bytecode compression
+Due to the cryptographic nature of ethereum, however, EVM bytecode might need to deal with operand immediate values that
+represent ethereum addresses, which are long cryptographic hash values and hence not compressible. All bytecode compression
 techniques mentioned above treat opcode and operand together during the pattern matching process and therefore would identify
 instructions with different operands as different patterns.
 We look forward to combining existing bytecode compression approaches as well as incorporating special treatment for EVM

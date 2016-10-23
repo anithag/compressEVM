@@ -8,21 +8,22 @@ Clients use ether to pay for executing and maintaining the transactions.~\footno
 There are two kinds of ethereum accounts: 
 \renewcommand\labelenumi{(\theenumi)}
 \begin{enumerate*}
-	\item Externally owned accounts (EOA) and
-	\item Contract accounts.
+	\item \emph{Externally owned accounts} (EOA) and
+	\item \emph{Contract accounts}.
 \end{enumerate*}
 Contract accounts are special accounts containing the smart contracts in bytecode format, referred to as \emph{EVM bytecode}.
 The bytecode is stack-based and is executed on \emph{Ethereum Virtual Machine} (EVM).
 Contract accounts comprise around $25\%$ of the entire ethereum accounts.~\footnote{
 At the time of writing, number of EOA and contract accounts are 555,043 and 197,261 respectively.}  
  
-Currently there are around 2,488,503 blocks with block size ranging between 1.5KB to 12.5KB~\cite{ethblocksize}.  
-The blockchain is growing at a rate 1.2GB/month and
-the space required by blockchain is as high as 60GB~\cite{ethdiskspace}.
-Compressing the blockchain can therefore be useful for full nodes that download the entire blockchain.
+Currently there are around 2,488,503 blocks with size ranging between 1.5KB to 12.5KB~\cite{ethblocksize}.  
+The blockchain is growing at a rate of 1.2GB/month and
+the space required for storing full blockchain is as high as 60GB~\cite{ethdiskspace}.
+Compressing the blockchain can therefore be useful for full client nodes (e.g., IoT, embedded systems with less storage)
+that download the entire blockchain.
 
 In this project, we propose to compress the entire ethereum blockchain by leveraging the domain-specific information.
-One could use the general-purpose compression software (e.g., gzip, bzip2, 7z) and compress the blockchain.
+One could use the general-purpose compression software (e.g., gzip, bzip2, 7zip) and compress the blockchain.
 However, a majority of blockchain contains 256-bit hashes which, if we assume are perfectly random, will be hard to compress.
 Also these programs cannot exploit certain properties that are specific to blockchain and thus do not offer optimal outputs.
 Our goal is to come-up with compression techniques that  are specialized for blockchain.
@@ -40,14 +41,16 @@ outline the opportunities for compressing ethereum block and EVM bytecode.
 \subsection{Ethereum Block Compression}\label{sec:blockcompress}
 
 A block is comprised of a block header, ommer (parent) block headers and a series of transactions. 
-A block header stores hashes of all transactions in the block as well as of previous and parent blocks.
+A block header stores cryptographic hashes of all transactions in the block as well as of previous and parent blocks.
 These hashes play an important role for verifying the validity of blocks.
 It might seem that there is not enough information to compress these random bits. 
-However, a closer inspection at the block header reveals that 
+The block hashes, however, have a fixed number of leading zeros and
+can therefore be encoded more efficiently.
+Also, a closer inspection at the block header reveals that 
 some information is either redundant or can be computed given other fields of the block.
 We explain how to exploit this redundancy to efficiently encode the block information.
 
-A block header has the following format. 
+A block header has the following format. We outline the possibility of efficiently encoding some fields. 
 \begin{description}
  \item[parentHash] 
  \item[ommersHash:]  Keccak 256-bit hash.
@@ -59,7 +62,7 @@ A block header has the following format.
 	\begin{multline*}
 	D_{c} = D_{p} + \frac{D_{p}}{2048 * max(\frac{(1 - (timestamp_{c} - timestamp_{p}))}{10}, -99)}\\ + 2^{\frac{\#block}{100000} - 2}
         \end{multline*}
-	where subscripts $c$ and $p$ denote current and parent blocks respectively. 
+	where subscripts $c$ and $p$ denote current and parent blocks respectively, and $\#block$ is the block number. 
  This suggests the possibility of saving bits without having to store difficulty for all blocks.
  \item[number:] Number of ancestor blocks
  \item[gasLimit:] Scalar value limiting the gas expenditure
@@ -72,10 +75,8 @@ A block header has the following format.
 
 An efficient encoder can exploit that \textbf{difficulty} and \textbf{gasUsed} can computed on the fly and therefore save around 512 bits of information per block (Recall that ethereum uses 256-bit integers by default).  
 
-A block is comprised of block header and a series of transactions. A transaction is a signed message. The block headers mainly
-contain cryptographic hashes and are therefore not compressable. The block hashes, however, have a fixed number of leading zeros and
-can therefore be encoded more efficiently.
 
+A transaction is a signed message. 
 Transactions are much more compressible and can be a major source of compression gains.
 There are two types of transactions: {\em Contract Creation} transactions and {\em Message Call} transactions.
 Both types have the following common fields:
@@ -93,7 +94,7 @@ We propose to compress the EVM bytecode using techniques presented in Section~\r
 
 A Message Call transaction has \textbf{data} field that contains the inputs of the message call: a method ID and parameters supplied to the invoked method.
 Existing transactions suggest that most of the inputs are going to a high number of 0's~\cite{ethtx}. 
-This is because Ethereum uses 256-bit big integers, but most of the transactions limit themselves to using 64-bit integers.
+This is because ethereum uses 256-bit big integers, but most of the transactions limit themselves to using 64-bit integers.
 This suggests that small numbers can be encoded efficiently.
 
 
