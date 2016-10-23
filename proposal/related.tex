@@ -1,3 +1,15 @@
+We identify two broad areas of related work.
+
+\paragraph{Blockchain Compression}
+Though blockchain scalability is a well-known problem in the cryptocurrency community,
+surprisingly very little effort is seen towards compressing the size of the blockchain.
+Much effort is focused on changing the underlying protocol so that clients
+do not have to store and process the full blockchain to verify the transactions~\cite{lightclient, ultimate}.
+By contrast, we focus on compressing the blockchain without changing the underlying protocol.
+We aren't aware of any special techniques for that are already implemented in this direction.
+
+
+\paragraph{Bytecode Compression}
 There are existing solutions to bytecode compression, most of which designed for JVM bytecode.
 EVM bytecode and JVM bytecode are very similar and thus many of the proposed compression techniques for JVM bytecode
 will also work in the context of EVM bytecode.
@@ -25,8 +37,8 @@ of these new instruction are stored in the augmented interpreters only. Compared
 identifying patterns described here are very similar to Sequitur and much more sophisticated than those in~\cite{aslam2010}.
 
 L. R. Clausen et al.~\cite{clausen2000} proposed yet another pattern-based bytecode compression scheme. The system ``factorizes''
-the JVM bytecode program by replacing repetitive bytecode sequences with special ``marco'' instructions. The semantics of the
-marco instructions are stored in a separate file and can be loaded to the interpreter. Patterns of recurring bytecode sequences
+the JVM bytecode program by replacing repetitive bytecode sequences with special ``macro'' instructions. The semantics of the
+macro instructions are stored in a separate file and can be loaded to the interpreter. Patterns of recurring bytecode sequences
 are identified with a greedy algorithm similar to~\cite{aslam2010}. Results show that this scheme can achieve compression rates
 similar to gzip.
 
@@ -35,9 +47,9 @@ both simpler and more complex at the same time, potentially requiring some speci
 with simple global unstructured states and therefore doesn't have special field addressing instructions like JVM does.
 This means that operands to EVM bytecode instructions are always data that's being pushed or compared to values stored on
 the stack, but not meta-values that have implicit meanings in the interpretation of the program.
-Due to the crypographic nature of Ethereum, however, EVM bytecode might need to deal with operand immediate values that
+Due to the cryptographic nature of Ethereum, however, EVM bytecode might need to deal with operand immediate values that
 represent Ethereum addresses, which are long cryptographic hash values and hence not compressible. All bytecode compression
-techniques mentioned above treat opcode and operand together during the pattern matching processs and therefore would identify
+techniques mentioned above treat opcode and operand together during the pattern matching process and therefore would identify
 instructions with different operands as different patterns.
 We look forward to combining existing bytecode compression approaches as well as incorporating special treatment for EVM
 bytecode operands to devise a new compression scheme that's tailored to EVM bytecode.

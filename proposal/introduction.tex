@@ -40,13 +40,19 @@ outline the opportunities for compressing ethereum block and EVM bytecode.
 \subsection{Ethereum Block Compression}\label{sec:blockcompress}
 
 A block is comprised of a block header, ommer (parent) block headers and a series of transactions. 
-A block header contains: 
+A block header stores hashes of all transactions in the block as well as of previous and parent blocks.
+These hashes play an important role for verifying the validity of blocks.
+It might seem that there is not enough information to compress these random bits. 
+However, a closer inspection at the block header reveals that 
+some information is either redundant or can be computed given other fields of the block.
+We explain how to exploit this redundancy to efficiently encode the block information.
 
+A block header has the following format. 
 \begin{description}
- \item[parentHash:] 
+ \item[parentHash] 
  \item[ommersHash:]  Keccak 256-bit hash.
- \item[stateRoot:]  
- \item[transactionsRoot:]
+ \item[stateRoot]  
+ \item[transactionsRoot]
  \item[beneficiary:]160-bit address.
  \item[logsBloom:] Bloom filter for log entries.
  \item[difficulty:] Can be computed from previous block using the formula
@@ -58,8 +64,8 @@ A block header contains:
  \item[number:] Number of ancestor blocks
  \item[gasLimit:] Scalar value limiting the gas expenditure
  \item[gasUsed:] Scalar value indicating the total gas used by all transactions in the block. This information can encoded efficiently.
- \item[timestamp:]
- \item[extraData:]
+ \item[timestamp]
+ \item[extraData]
  \item[mixHash:] 256-bit hash
  \item[nonce:] 64-bit hash
 \end{description}
