@@ -59,10 +59,10 @@ A block header has the following format. We outline the possibility of efficient
  \item[beneficiary:]160-bit address.
  \item[logsBloom:] Bloom filter for log entries.
  \item[difficulty:] Can be computed from previous block using the formula
-	\begin{multline*}
-	D_{c} = D_{p} + \frac{D_{p}}{2048 * max(\frac{(1 - (timestamp_{c} - timestamp_{p}))}{10}, -99)}\\ + 2^{\frac{\#block}{100000} - 2}
-        \end{multline*}
-	where subscripts $c$ and $p$ denote current and parent blocks respectively, and $\#block$ is the block number. 
+ $$
+ D_{c} = D_{p} + \dfrac{D_{p}}{2048\times\textrm{max}\left(\dfrac{1 - (ts_{c} - ts_{p})}{10}, -99\right)} + 2^{b/10^5-2}
+ $$
+ where $ts$ denotes timestamps, subscripts $c$ and $p$ denote current and parent blocks respectively, and $b$ is the block number.
  This suggests the possibility of saving bits without having to store difficulty for all blocks.
  \item[number:] Number of ancestor blocks
  \item[gasLimit:] Scalar value limiting the gas expenditure
@@ -82,7 +82,7 @@ There are two types of transactions: {\em Contract Creation} transactions and {\
 Both types have the following common fields:
 \begin{description}
   \item[nonce:] A scalar value representing number of transactions associated with this account
-  \item[gasPrice:] Default value is 0.02e12 Wei. Though clients can set their own gasPrice, most of the transactions use default value suggesting the high probability of its occurance.
+  \item[gasPrice:] Default value is $0.02\times10^{12}$ Wei. Though clients can set their own gasPrice, most of the transactions use default value suggesting the high probability of its occurance.
   \item[gasLimit:] Maximum gas that can be used for executing this transaction
   \item[to:] Receiver's 160-bit address. For contract creation, a special symbol $\phi$ is used.
   \item[value:] Wei being transferred to the recipient.
