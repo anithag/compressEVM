@@ -1,11 +1,11 @@
 
-Ethereum is a public blockchain based cryptocurrency and supports Turing-complete smart contracts~\cite{ethereum}.
+\eth{} is a public blockchain based cryptocurrency and supports Turing-complete smart contracts~\cite{ethereum}.
 The blockchain maintains a list of records, called \emph{blocks} and serves as a ledger for all transactions.
 The value token of the blockchain is called \emph{ether} and 
 is traded in cryptocurrency exchanges.
 Clients use ether to pay for executing and maintaining the transactions.~\footnote{
 \emph{Finney}, \emph{Szabo}, and \emph{Wei} are the denominations of ether.}
-There are two kinds of ethereum accounts: 
+There are two kinds of \eth{} accounts: 
 \renewcommand\labelenumi{(\theenumi)}
 \begin{enumerate*}
 	\item \emph{Externally owned accounts} (EOA) and
@@ -13,7 +13,7 @@ There are two kinds of ethereum accounts:
 \end{enumerate*}
 Contract accounts are special accounts containing the smart contracts in bytecode format, referred to as \emph{EVM bytecode}.
 The bytecode is stack-based and is executed on \emph{Ethereum Virtual Machine} (EVM).
-Contract accounts comprise around $25\%$ of the entire ethereum accounts.~\footnote{
+Contract accounts comprise around $25\%$ of the entire \eth{} accounts.~\footnote{
 At the time of writing, number of EOA and contract accounts are 555,043 and 197,261 respectively.}  
  
 Currently there are around 2,488,503 blocks with size ranging between 1.5KB to 12.5KB~\cite{ethblocksize}.  
@@ -22,7 +22,7 @@ the space required for storing full blockchain is as high as 60GB~\cite{ethdisks
 Compressing the blockchain can therefore be useful for full client nodes (e.g., IoT, embedded systems with less storage)
 that download the entire blockchain.
 
-In this project, we propose to compress the entire ethereum blockchain by leveraging the domain-specific information.
+In this project, we propose to compress the entire \eth{} blockchain by leveraging the domain-specific information.
 One could use the general-purpose compression software (e.g., gzip, bzip2, 7zip) and compress the blockchain.
 However, a majority of blockchain contains 256-bit hashes which, if we assume are perfectly random, will be hard to compress.
 Also these programs cannot exploit certain properties that are specific to blockchain and thus do not offer optimal outputs.
@@ -36,7 +36,7 @@ for the sake of exposition we view them as complementary tasks.
 In particular, techniques to compress bytecode are orthogonal to techniques for compressing other fields of transaction.
 In Section~\ref{sec:blockcompress} and 
 Section~\ref{sec:evmcompress}, we   
-outline the opportunities for compressing ethereum block and EVM bytecode. 
+outline the opportunities for compressing \eth{} block and EVM bytecode. 
 
 \subsection{Ethereum Block Compression}\label{sec:blockcompress}
 
@@ -73,7 +73,7 @@ A block header has the following format. We outline the possibility of efficient
  \item[nonce:] 64-bit hash
 \end{description}
 
-An efficient encoder can exploit that \textbf{difficulty} and \textbf{gasUsed} can computed on the fly and therefore save around 512 bits of information per block (Recall that ethereum uses 256-bit integers by default).  
+An efficient encoder can exploit that \textbf{difficulty} and \textbf{gasUsed} can computed on the fly and therefore save around 512 bits of information per block (Recall that \eth{} uses 256-bit integers by default).  
 
 
 A transaction is a signed message. 
@@ -94,7 +94,7 @@ We propose to compress the EVM bytecode using techniques presented in Section~\r
 
 A Message Call transaction has \textbf{data} field that contains the inputs of the message call: a method ID and parameters supplied to the invoked method.
 Existing transactions suggest that most of the inputs are going to a high number of 0's~\cite{ethtx}. 
-This is because ethereum uses 256-bit big integers, but most of the transactions limit themselves to using 64-bit integers.
+This is because \eth{} uses 256-bit big integers, but most of the transactions limit themselves to using 64-bit integers.
 This suggests that small numbers can be encoded efficiently.
 
 
