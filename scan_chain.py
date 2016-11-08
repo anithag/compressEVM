@@ -1,8 +1,11 @@
 #!/usr/bin/env python
 
-import sys
+import sys, time
 from threading import Thread
 from ethjsonrpc import EthJsonRpc
+
+wait_start = 0.01
+wait_ceiling = 1.0
 
 def append_hex(f, hex_string):
     f.write(hex_string.decode("hex"))
@@ -16,10 +19,20 @@ def run_scan_thread(n, start, end):
     f2 = open('creations_{:02d}.dat'.format(n), 'ab')
 
     for bi in range(start, end+1):
+        w = wait_start
         bc = bi - start
         if bc % 1000 == 0:
             print 'Worker {:d}: processed {:d} blocks {:.2f}%'.format(n,bc,float(bc*100.0)/float(range_size))
-        b = c.eth_getBlockByNumber(bi)
+        while True:
+            try:
+                b = c.eth_getBlockByNumber(bi)
+            except:
+                time.sleep(w)
+                w *= 2
+                if w > wait_ceiling:
+                    w = wait_ceiling
+                continue
+            break
         t = b['transactions']
         if len(t) == 0:
             continue
@@ -30,8 +43,8 @@ def run_scan_thread(n, start, end):
             # contract creation txn
             if tx['to'] == None:
                 append_hex(f2, tx['input'][2:])
-    close(f1)
-    close(f2)
+    f1.close()
+    f2.close()
 
 if __name__ == '__main__':
     # spread jobs to workers
