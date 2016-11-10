@@ -1,5 +1,7 @@
 import numpy as np
 import binascii as ba
+import os
+import math
 
 fileName="creations.dat"
 with open(fileName, mode='rb') as file: # b is important -> binary
@@ -148,5 +150,43 @@ for x in opfreq:
 
 sortedopcodes = sorted(data.items(), key=lambda x:x[1])
 
-for y in sortedopcodes:
-    print(y[1], "\t", y[0])
+# disable printing sorted opcodes for now
+#for y in sortedopcodes:
+#    print(y[1], "\t", y[0])
+
+
+#Compression testing with huffman codes
+hcode_table = {}
+fileName="huffmanopcodes.txt"
+with open(fileName, mode='r') as file: 
+    for line in file:
+            token = str.split(line)
+            hcode_table[token[0]] = token[2]
+
+#compute the compression size with huffman codes
+#opcode: opcode, counts
+#Algorithm: get the huffman code and its size. Multiply it with counts
+
+comprsize = 0
+for idx in opfreq:
+   if idx[0] in opcode_table:
+        #get the opcode
+        opcode = opcode_table[idx[0]]
+        #get the huffman code
+        hcode = hcode_table[opcode]
+        hsize = len(hcode)
+        comprsize = comprsize+ (hsize * idx[1])
+   else:
+        comprsize = comprsize + (8 * idx[1]) 
+
+# Original size in bytes
+origsize=os.stat('creations.dat').st_size
+print("Original Size:", origsize) 
+
+#compressed size in bytes
+comprsize = math.ceil(comprsize/8)
+print("Compressed Size:", comprsize)
+
+#savings
+print("Compression ratio:", comprsize/origsize)
+
