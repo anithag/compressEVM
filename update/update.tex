@@ -14,23 +14,91 @@
 \usepackage{color, float}
 \usepackage{wrapfig}
 \usepackage[inline]{enumitem}
-
-\newtheorem{theorem}{Theorem}[section]
-\newtheorem{lemma}[theorem]{Lemma}
-\newtheorem{definition}{Definition}[section]
-% A column which takes as much width as is available _and_ aligns right.
-\newcolumntype{R}{>{\raggedleft\arraybackslash}X}%
-\newcolumntype{Y}{>{\centering\arraybackslash}X}%
+\usepackage{listings}
 
 
-\title{CS222: Project Update}
+\newcommand\peth{Ethereum}
 
-\author{Anitha Gollamudi}
-\author{Yihe Huang}
+\title{Ethereum Blockchain Compression\\
+	\large CS222: Project Update
+	}
+
+\author{Anitha Gollamudi 
+	\and
+	Yihe Huang}
 \begin{document}
 %\input{defs}
 
 \maketitle
+
+\section{Summary}
+In this project, we propose to compress the entire \peth blockchain by leveraging the domain-specific information.
+One could use the general-purpose compression software (e.g., gzip, bzip2, 7zip) and compress the blockchain.
+However, a majority of blockchain contains 256-bit hashes which, if we assume are perfectly random, will be hard to compress.
+Also these programs cannot exploit certain properties that are specific to blockchain and thus do not offer optimal outputs.
+Our goal is to come-up with compression techniques that  are specialized for blockchain.
+
+We emphasize that outperforming the existing mature compressors is not our primarily goal, rather
+we hope that the insights from this project can be added as an extension to be able to get effective compression rates.   
+
+\section{Progress}
+Our project execution plan involves 2 phases: 
+\begin{enumerate*}
+	\item Compress the EVM byte code in contract creation transactions 
+	\item Compress the fields of transactions leveraging the block structural information
+\end{enumerate*}
+So far, we focused our efforts on getting the EVM byte code compression which we describe in detail.
+
+After setting up our ethereum clients, we downloaded the Morden testnet blockchain which occupies around 25GB of disk-space.\footnote{We use testnet as our first approximation of the actual \peth blockchain.} 
+After vetting through the format of transactions, we identified that out of the 4.5million transactions,  104277 (\~2\%) create contracts.
+The ratio is roughly representative of the contract creation transactions in the actual blockchain.
+
+Extracting byte code from contracts is fairly straight-forward. Our sub-goal is to compress this byte code.
+One of our observations is that the encoding of EVM opcodes is not information-theoretically optimal. All opcodes consume a byte.
+So our first natural attempt is to obtain optimal encoding such that frequently used opcodes can be encoded using fewer bits.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{c | c | p{4cm} | p{4cm} }
+	opcode & frequency & {Original Encoding} & {Huffman Encoding}  \\
+\hline
+push1 & 30668777 & 0110 0000 & 100\\
+stop & 23667846 & 0000 0000 & 000 \\
+add  & 15255847 & 0000 0001  & 0111\\
+swap1  & 12899156 &1001 0000 & 0011 \\
+suicide & 12279587 &1111 1111 & 11111 \\
+pop    & 10986684 &0101 0000 & 11101 \\
+\hline
+\end{tabular}
+\caption{Top 6 opcodes}
+\label{tab:freqopcodes}
+\end{table}
+
+We used huffman encoding to obtain optimal encodings.
+Table~\ref{tab:freqopcodes} shows the frequencies of the top 6-most used opcodes, corresponding original encodings and huffman codes.
+With the new encoding the byte code could be compressed by about $30\%$. 
+Note that the below numbers represent the size of byte code, not that of blockchain.
+
+\begin{lstlisting}
+Original Size (bytes): 271535767
+Compressed Size : 187170859
+Compression ratio : 0.689
+\end{lstlisting}
+
+This seems encouraging but a comparison with gzip shows that there is more room for compression. We describe the list of optimizations we plan to
+do in Section~\ref{sec:todo}.
+\begin{lstlisting}
+Compressed Size (gzip) : 45965241
+Compression ratio : 0.169
+\end{lstlisting}
+
+We also extracted transactions that invoke the contracts. 
+These transactions have a field \textbf{input} which is used to send input parameters to the method being invoked.
+Much to our surprise, the total size of the data inside the \textbf{input} is larger (2x) 
+than the total size of the byte code. Most of the data is redundant because EVM uses 256-bit integers, but in practice only small integers are used.
+This is easily amenable to compression.
+
+\section{ToDo}\label{sec:todo}
 
 
 \end{document}
