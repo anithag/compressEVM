@@ -17,7 +17,7 @@
 \usepackage{listings}
 
 
-\newcommand\peth{Ethereum}
+\newcommand\peth{Ethereum\xspace}
 
 \title{Ethereum Blockchain Compression\\
 	\large CS222: Project Update
@@ -43,9 +43,9 @@ we hope that the insights from this project can be added as an extension to be a
 
 \section{Progress}
 Our project execution plan involves two phases: 
-\begin{enumerate*}
+\begin{enumerate*}[label=(\roman*)]
 	\item Compress the EVM byte code in contract creation transactions 
-	\item Compress the fields of transactions leveraging the block structural information
+	\item Compress the fields of transactions leveraging the block structural information.
 \end{enumerate*}
 So far, we focused our efforts on getting the EVM byte code compression which we describe in detail.
 
