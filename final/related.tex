@@ -1,0 +1,58 @@
+We identify two broad areas of related work.
+
+\paragraph{Blockchain Compression}
+Though blockchain scalability is a well-known problem in the cryptocurrency community,
+surprisingly very little effort is seen towards compressing the size of the blockchain.
+Much effort is focused on changing the underlying protocol so that clients
+do not have to store and process the full blockchain to verify the transactions~\cite{lightclient, ultimate}.
+By contrast, we focus on compressing the blockchain without changing the underlying protocol.
+\emph{Merkelized Abstract Syntax Trees} (MAST) have been proposed to reduce the the amount of script included in redemption
+type of Bitcoin transactions~\cite{mast}. 
+However, this seems to be a issue specific to Bitcoin protocol.  
+\eth{} does not include any scripts in message call transactions and so  MAST structures are probably not helpful.
+To the best of our knowledge, we aren't aware of any other special blockchain compression techniques that are already implemented. 
+
+
+\paragraph{Bytecode Compression}
+There are existing solutions to bytecode compression, most of which designed for JVM bytecode.
+EVM bytecode and JVM bytecode are very similar and thus many of the proposed compression techniques for JVM bytecode
+will also work in the context of EVM bytecode.
+
+F. Aslam et al.~\cite{aslam2010} proposed a JVM compaction mechanism to overcome resource constraints in embedded systems.
+It utilizes unused opcode encoding space to extend the JVM bytecode with new instructions that represent bundles of
+instructions that often appear together, or common opcode-operand pairs within the same instruction.
+The compaction scheme is different from traditional compression in that it does not require decompression before executing,
+but requires an augmented JVM instead. It was shown that bytecode compaction can reduce code size for up to 58\%.
+
+M. Latendresse and M. Feeley~\cite{marc2003} applied Huffman encoding to JVM bytecode, and designed interpreters that
+can execute bytecode in compressed form by decompressing on-the-fly.
+The system focused heavily on performance, which is not critical for \eth{} smart contracts.
+
+Both~\cite{aslam2010} and~\cite{marc2003} feature compressed bytecode that can be executed directly, without decompressing
+the entire bytecode block first. It is because these systems were designed for resource-constrained embedded systems.
+However, recent years have seen dramatic improvement in the capabilities of such devices.
+This requirement of direct execution in compressed form, therefore, may not be necessary.
+
+W. S. Evans and C. W. Fraser~\cite{evans2003} proposed a grammar-based compression mechanism for identifying patterns in
+interpreted bytecode sequences.
+Similar to~\cite{aslam2010}, identified patterns are replaced with new instructions to achieve compression, and the semantics
+of these new instruction are stored in the augmented interpreters only. Compared to~\cite{aslam2010}, the techniques for
+identifying patterns described here are very similar to Sequitur and much more sophisticated than those in~\cite{aslam2010}.
+
+L. R. Clausen et al.~\cite{clausen2000} proposed yet another pattern-based bytecode compression scheme. The system ``factorizes''
+the JVM bytecode program by replacing repetitive bytecode sequences with special ``macro'' instructions. The semantics of the
+macro instructions are stored in a separate file and can be loaded to the interpreter. Patterns of recurring bytecode sequences
+are identified with a greedy algorithm similar to~\cite{aslam2010}. Results show that this scheme can achieve compression rates
+similar to gzip.
+
+Most of the ideas in previous work on JVM bytecode compression are applicable to EVM bytecode. EVM bytecode, however, are
+both simpler and more complex at the same time, potentially requiring some special treatment. For example, EVM bytecode deals
+with simple global unstructured states and therefore doesn't have special field addressing instructions like JVM does.
+This means that operands to EVM bytecode instructions are always data that's being pushed or compared to values stored on
+the stack, but not meta-values that have implicit meanings in the interpretation of the program.
+Due to the cryptographic nature of \eth{}, however, EVM bytecode might need to deal with operand immediate values that
+represent \eth{} addresses, which are long cryptographic hash values and hence not compressible. All bytecode compression
+techniques mentioned above treat opcode and operand together during the pattern matching process and therefore would identify
+instructions with different operands as different patterns.
+We look forward to combining existing bytecode compression approaches as well as incorporating special treatment for EVM
+bytecode operands to devise a new compression scheme that's tailored to EVM bytecode.

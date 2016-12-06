@@ -1,0 +1,14 @@
+Our plan is to implement the compression by modifying \textbf{\emph{eth}}:
+ a C++ \eth{} client.
+Client \textbf{eth} serializes the data using a recursive length prefix (RLP) encoding.
+A key/value database is used to store the transactions.
+
+We plan to implement an encoder  that implements the compression  
+discussed in Section~\ref{sec:blockcompress} and Section~\ref{sec:evmcompress} 
+before serializing the data to database.
+We then compress the data using general-purpose compressors like gzip and/or bzip2.
+
+For decompression, we follow the reverse path and using
+corresponding decoder in \textbf{eth}, we  retrieve the original blockchain.
+
+One question that we weren't able to decide early on is whether to apply general-compression techniques before or aftering storing the data to the database.
