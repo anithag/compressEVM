@@ -1,11 +1,38 @@
 
-We plan to use 
-Morden testnet blockchain~\cite{testnet} for evaluating our compression technique. 
-Morden is an alternative blockchain containing 1,797,895 blocks, 98,843 contracts and
-4,023,330 transactions.
-The blockchain currently takes about 4GB of storage and is representative of
-the main blockchain.
+\begin{table*}
+\begin{subtable}{0.5\textwidth}
+\captionsetup{justification=centering}
+\begin{tabular}{ >{\bfseries}c| p{2cm} | p{2cm} | p{1.5cm} }
+  Program & {Compressed Size of Original File} & {Compressed Size on Custom format} & Percentage Gain \\
+  \hline
+  gzip  & 33.4 & 27.5 & 17.7 \\
+  bzip2 & 31.0 & 26.7 & 13.9 \\
+  xz   & 27.8 & 22.4 &  19.4 \\
+\end{tabular}
+\caption{Compression of Ropsten testnet. \\ Original Size = 98.6MB. Custom format size = 47.8MB}
+\end{subtable}
+\begin{subtable}{0.5\textwidth}
+\captionsetup{justification=centering}
+\begin{tabular}{ >{\bfseries}c| p{2cm} | p{2cm} | p{1cm} }
+ Program & {Compressed Size of Original File} & {Compressed Size on Custom format} & Percentage Gain \\
+  \hline
+  gzip  & 812.2 & 701.3 & 13.7\\
+  bzip2 & 762.9 & 685.6 & 10.1 \\
+  xz   & 686.7 & 599.2 & 12.7 \\
+\end{tabular}
+\caption{Compression of Morden testnet. \\Original Size = 2160MB. Custom format size = 1135.4MB}
+\end{subtable}
+\end{table*}
 
-Our evaluation plan includes comparing the compression savings on a 
-with and without using our customized compression technique. 
-We also plan to evaluate the compression and decompression time.
+
+\begin{table}
+\captionsetup{justification=centering}
+\begin{tabular}{ >{\bfseries}c| p{2cm} | p{2cm} | p{1.5cm} }
+  Program & {Compressed Size of Original File} & {Compressed Size on Custom format} & Percentage Gain \\
+  \hline
+  gzip  & 1807.1 & 1481.1 & 18.0 \\
+  bzip2 & 1751.3 & 1474.6 & 15.8 \\
+  xz   & 1541.8 & 1367.6 &  11.3 \\
+\end{tabular}
+\caption{Compression of Frontier mainnet. \\ Original Size = 3434.6MB. Custom format size = 2069MB}
+\end{table}
