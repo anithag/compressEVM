@@ -1,26 +1,52 @@
 
+We evaluate our custom compression scheme against Morden, Ropsten and Frontier blockchains.
+Table \ref{tab:origvscustom} shows the compression gains obtained after using our technique.
+As can be seen, savings as much as 40\% can be seen on the main blockchain demonstrating the usefulness
+of our technique.
+\begin{table}[h]
+\captionsetup{justification=centering}
+\begin{tabular}{ >{\bfseries}c| p{2cm} | p{2cm} | p{1.5cm} }
+	Blockchain& {Size of Original File(MB)} & {Size of Custom format(MB)} & Percentage Gain \\
+  \hline
+  Ropsten & 98.6 & 47.8  &  51.5\\
+  Morden & 2160 & 1135.4  & 47.4 \\
+  Frontier  & 3434.6  & 2069 & 39.6 \\
+\end{tabular}
+\caption{Compression gains using our custom format} 
+\label{tab:origvscustom}
+\end{table}
+
+As mentioned earlier, we do not aim to compete against the existing compressing tools that are mature.
+However, we provide a comparative evaluation of our tool against gzip, bzip2 and xz in
+Table~\ref{tab:compropsten}, Table~\ref{tab:compmorden} and Table~\ref{tab:compfrontier}. 
+We present the additional compression savings that were possible by compressing 
+our custom format using each of those programs.
+As we can see, the results are encouraging and show room for improvement.
+
 \begin{table*}
 \begin{subtable}{0.5\textwidth}
 \captionsetup{justification=centering}
 \begin{tabular}{ >{\bfseries}c| p{2cm} | p{2cm} | p{1.5cm} }
-  Program & {Compressed Size of Original File} & {Compressed Size on Custom format} & Percentage Gain \\
+	Program & {Compressed Size of Original File(MB)} & {Compressed Size on Custom format(MB)} & Percentage Gain \\
   \hline
   gzip  & 33.4 & 27.5 & 17.7 \\
   bzip2 & 31.0 & 26.7 & 13.9 \\
   xz   & 27.8 & 22.4 &  19.4 \\
 \end{tabular}
 \caption{Compression of Ropsten testnet. \\ Original Size = 98.6MB. Custom format size = 47.8MB}
+\label{tab:compropsten}
 \end{subtable}
 \begin{subtable}{0.5\textwidth}
 \captionsetup{justification=centering}
 \begin{tabular}{ >{\bfseries}c| p{2cm} | p{2cm} | p{1cm} }
- Program & {Compressed Size of Original File} & {Compressed Size on Custom format} & Percentage Gain \\
+	Program & {Compressed Size of Original File(MB)} & {Compressed Size on Custom format(MB)} & Percentage Gain \\
   \hline
   gzip  & 812.2 & 701.3 & 13.7\\
   bzip2 & 762.9 & 685.6 & 10.1 \\
   xz   & 686.7 & 599.2 & 12.7 \\
 \end{tabular}
 \caption{Compression of Morden testnet. \\Original Size = 2160MB. Custom format size = 1135.4MB}
+\label{tab:compmorden}
 \end{subtable}
 \end{table*}
 
@@ -35,4 +61,6 @@
   xz   & 1541.8 & 1367.6 &  11.3 \\
 \end{tabular}
 \caption{Compression of Frontier mainnet. \\ Original Size = 3434.6MB. Custom format size = 2069MB}
+\label{tab:compfrontier}
 \end{table}
+
