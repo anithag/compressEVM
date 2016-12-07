@@ -3,13 +3,13 @@ import binascii as ba
 import os
 import math
 
-fileName="creations.dat"
-with open(fileName, mode='rb') as file: # b is important -> binary
-        fileContent = bytearray(file.read())
+#fileName="creations.dat"
+#with open(fileName, mode='rb') as file: # b is important -> binary
+#        fileContent = bytearray(file.read())
 
-unique, counts = np.unique(fileContent, return_counts=True)
+#unique, counts = np.unique(fileContent, return_counts=True)
 
-opfreq = np.asarray((unique, counts)).T
+#opfreq = np.asarray((unique, counts)).T
 
 opcode_table = {
                 0x00:"stop",
@@ -143,12 +143,13 @@ opcode_table = {
                 0xf4:"delegatecall",
                 0xff:"suicide"
         }
-data = {}
-for x in opfreq:
-    if x[0] in opcode_table:
-      data[opcode_table[x[0]]]= x[1]
-
-sortedopcodes = sorted(data.items(), key=lambda x:x[1])
+inv_opcode_table = {v: k for k, v in opcode_table.items()}
+#data = {}
+#for x in opfreq:
+#    if x[0] in opcode_table:
+#      data[opcode_table[x[0]]]= x[1]
+#
+#sortedopcodes = sorted(data.items(), key=lambda x:x[1])
 
 # disable printing sorted opcodes for now
 #for y in sortedopcodes:
@@ -156,37 +157,37 @@ sortedopcodes = sorted(data.items(), key=lambda x:x[1])
 
 
 #Compression testing with huffman codes
-hcode_table = {}
-fileName="huffmanopcodes.txt"
-with open(fileName, mode='r') as file: 
-    for line in file:
-            token = str.split(line)
-            hcode_table[token[0]] = token[2]
+#hcode_table = {}
+#fileName="huffmanopcodes.txt"
+#with open(fileName, mode='r') as file: 
+#    for line in file:
+#            token = str.split(line)
+#            hcode_table[inv_opcode_table[token[0]]] = token[1]
 
 #compute the compression size with huffman codes
 #opcode: opcode, counts
 #Algorithm: get the huffman code and its size. Multiply it with counts
 
-comprsize = 0
-for idx in opfreq:
-   if idx[0] in opcode_table:
-        #get the opcode
-        opcode = opcode_table[idx[0]]
-        #get the huffman code
-        hcode = hcode_table[opcode]
-        hsize = len(hcode)
-        comprsize = comprsize+ (hsize * idx[1])
-   else:
-        comprsize = comprsize + (8 * idx[1]) 
-
-# Original size in bytes
-origsize=os.stat('creations.dat').st_size
-print("Original Size:", origsize) 
-
-#compressed size in bytes
-comprsize = math.ceil(comprsize/8)
-print("Compressed Size:", comprsize)
-
-#savings
-print("Compression ratio:", comprsize/origsize)
-
+##comprsize = 0
+##for idx in opfreq:
+##   if idx[0] in opcode_table:
+##        #get the opcode
+##        opcode = opcode_table[idx[0]]
+##        #get the huffman code
+##        hcode = hcode_table[opcode]
+##        hsize = len(hcode)
+##        comprsize = comprsize+ (hsize * idx[1])
+##   else:
+##        comprsize = comprsize + (8 * idx[1]) 
+##
+### Original size in bytes
+##origsize=os.stat('creations.dat').st_size
+##print("Original Size:", origsize) 
+##
+###compressed size in bytes
+##comprsize = math.ceil(comprsize/8)
+##print("Compressed Size:", comprsize)
+##
+###savings
+##print("Compression ratio:", comprsize/origsize)
+##
