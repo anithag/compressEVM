@@ -3,18 +3,19 @@ We evaluate our custom compression scheme against Morden, Ropsten and Frontier b
 Table \ref{tab:origvscustom} shows the compression gains obtained after using our technique.
 As can be seen, savings as much as 40\% can be seen on the main blockchain demonstrating the usefulness
 of our technique.
-\begin{table}[h]
+\begin{table*}
+	\centering
 \captionsetup{justification=centering}
-\begin{tabular}{ >{\bfseries}c| p{2cm} | p{2cm} | p{1.5cm} }
-	Blockchain& {Size of Original File(MB)} & {Size of Custom format(MB)} & Percentage Gain \\
+\begin{tabular}{ >{\bfseries}c| p{2cm} | p{2cm} | p{2cm} |p{1.5cm} |p{1.5cm} }
+	Blockchain& {Size of Original File (MB)} & {\par{Size of Custom format \newline (MB)}} & {Size of Custom format with Huffman Encoding (MB)} & \par{Percentage Gain without Huffman Encoding}  & \par{Percentage Gain with Huffman Encoding} \\
   \hline
-  Ropsten & 98.6 & 47.8  &  51.5\\
-  Morden & 2160 & 1135.4  & 47.4 \\
-  Frontier  & 3434.6  & 2069 & 39.6 \\
+  Ropsten & 98.6 & 47.8  & 44.4 &51.5  & 55.0\\
+  Morden & 2160 & 1135.4 &1068.9 & 47.4 & 50.5 \\
+  Frontier  & 3434.6  & 2069 & 2037.5 & 39.6 & 40.7\\
 \end{tabular}
-\caption{Compression gains using our custom format} 
+\caption{Compression gains using our custom format with and without Huffman encoding} 
 \label{tab:origvscustom}
-\end{table}
+\end{table*}
 
 As mentioned earlier, we do not aim to compete against the existing compressing tools that are mature.
 However, we provide a comparative evaluation of our tool against gzip, bzip2 and xz in
