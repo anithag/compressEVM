@@ -26,7 +26,7 @@ def accept_and_handle(s, hcode_table):
     while True:
         hin = f.readline().strip()
         if hin == '':
-            print "Connect closed"
+            print "Connection closed"
             break
         bc = binascii.unhexlify(hin)
         huff = assign_opcode(bc, hcode_table)
