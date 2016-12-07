@@ -31,8 +31,8 @@ def accept_and_handle(s, hcode_table):
         bc = binascii.unhexlify(hin)
         huff = assign_opcode(bc, hcode_table)
         hout = binascii.hexlify(huff.tobytes()) + '\n'
-        print hout
-        s.sendall(hout)
+        #print hout
+        conn.sendall(hout)
     f.close()
 
 #Compression testing with huffman codes
