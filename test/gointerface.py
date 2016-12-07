@@ -24,7 +24,11 @@ def accept_and_handle(s, hcode_table):
     f = conn.makefile()
 
     while True:
-        hin = f.readline().strip()
+        try:
+            hin = f.readline().strip()
+        except:
+            print "Recv error, connection closed"
+            break
         if hin == '':
             print "Connection closed"
             break
