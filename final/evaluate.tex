@@ -25,43 +25,45 @@ our custom format using each of those programs.
 As we can see, the results are encouraging and show room for improvement.
 
 \begin{table*}
-\begin{subtable}{0.5\textwidth}
+	\centering
 \captionsetup{justification=centering}
-\begin{tabular}{ >{\bfseries}c| p{2cm} | p{2cm} | p{1.5cm} }
-	Program & {Compressed Size of Original File(MB)} & {Compressed Size on Custom format(MB)} & Percentage Gain \\
+\begin{tabular}{ >{\bfseries}c| p{2cm} | p{2cm} |p{2cm} | p{1.5cm} | p{1.5cm} }
+	Program & {Compressed Size of Original File(MB)} & {Compressed Size on Custom format(MB)} & {Compressed Size on Custom format with Huffman Encoding (MB)}& Percentage Gain without Huffman Encoding & Percentage Gain with Huffman Encoding\\
   \hline
-  gzip  & 33.4 & 27.5 & 17.7 \\
-  bzip2 & 31.0 & 26.7 & 13.9 \\
-  xz   & 27.8 & 22.4 &  19.4 \\
+  gzip  & 33.4 & 27.5 & 29.4 & 17.7 & 12.0 \\
+  bzip2 & 31.0 & 26.7 & 28.6 & 13.9 & 7.8  \\
+  xz   & 27.8 & 22.4 &  23.3 & 19.4 & 16.2 \\
 \end{tabular}
 \caption{Compression of Ropsten testnet. \\ Original Size = 98.6MB. Custom format size = 47.8MB}
 \label{tab:compropsten}
-\end{subtable}
-\begin{subtable}{0.5\textwidth}
+\end{table*}
+
+\begin{table*}
+\centering
 \captionsetup{justification=centering}
-\begin{tabular}{ >{\bfseries}c| p{2cm} | p{2cm} | p{1cm} }
-	Program & {Compressed Size of Original File(MB)} & {Compressed Size on Custom format(MB)} & Percentage Gain \\
+\begin{tabular}{ >{\bfseries}c| p{2cm} | p{2cm} | p{2cm} | p{1.5cm} | p{1.5cm} }
+	Program & {Compressed Size of Original File(MB)} & {Compressed Size on Custom format(MB)} & {Compressed Size on Custom format with Huffman Encoding (MB)} & Percentage Gain without Huffman Encoding & Percentage Gain with Huffman Encoding \\
   \hline
-  gzip  & 812.2 & 701.3 & 13.7\\
-  bzip2 & 762.9 & 685.6 & 10.1 \\
-  xz   & 686.7 & 599.2 & 12.7 \\
+  gzip  & 812.2 & 701.3 & 739.6 & 13.7 & 9.0 \\
+  bzip2 & 762.9 & 685.6 & 725.8 & 10.1 & 5.0 \\
+  xz   & 686.7 & 599.2 &  620.7 & 12.7 & 9.6 \\
 \end{tabular}
 \caption{Compression of Morden testnet. \\Original Size = 2160MB. Custom format size = 1135.4MB}
 \label{tab:compmorden}
-\end{subtable}
 \end{table*}
 
 
-\begin{table}
+\begin{table*}
+	\centering
 \captionsetup{justification=centering}
-\begin{tabular}{ >{\bfseries}c| p{2cm} | p{2cm} | p{1.5cm} }
-  Program & {Compressed Size of Original File} & {Compressed Size on Custom format} & Percentage Gain \\
+\begin{tabular}{ >{\bfseries}c| p{2cm} | p{2cm} | p{2cm} | p{1.5cm} | p{1.5cm} }
+	Program & {Compressed Size of Original File} & {Compressed Size on Custom format without Huffman Encoding} & {Compressed Size on Custom format with Huffman Encoding} &Percentage Gain without Huffman Encoding & Percentage Gain with Huffman Encoding\\
   \hline
-  gzip  & 1807.1 & 1481.1 & 18.0 \\
-  bzip2 & 1751.3 & 1474.6 & 15.8 \\
-  xz   & 1541.8 & 1367.6 &  11.3 \\
+  gzip  & 1807.1 & 1481.1 & 1627.9 & 18.0 & 10.1 \\
+  bzip2 & 1751.3 & 1474.6 & 1590.0 & 15.8 & 9.2 \\
+  xz   & 1541.8 & 1367.6 & 1398.7 & 11.3  & i9.3 \\
 \end{tabular}
 \caption{Compression of Frontier mainnet. \\ Original Size = 3434.6MB. Custom format size = 2069MB}
 \label{tab:compfrontier}
-\end{table}
+\end{table*}
 

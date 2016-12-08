@@ -4,7 +4,7 @@ import "fmt"
 import "os/exec"
 
 func main() {
-    bytecode:=  "0012"
+    bytecode:=  "00\n12"
     cmd := exec.Command("python",  "gointerface.py", "-b", bytecode)
     fmt.Println(cmd.Args)
     out, err := cmd.CombinedOutput()
