@@ -38,11 +38,11 @@ A block header has the following format:
 \end{description}
 
 The block header contains many redundant information and therefore presents opportunities for efficient encoding.
-The \textbf{difficulty} field, for exmaple, can be computed using the following formula:
+The \textbf{difficulty} field, for exmaple, can be computed using the following equation:
 
-\begin{equation}
+$$
 D_{c} = D_{p} + \dfrac{D_{p}}{2^{11}\cdot\max\left(\dfrac{1 - (ts_{c} - ts_{p})}{10}, -99\right)} + 2^{b/10^5-2}
-\end{equation}
+$$
 
 where $ts$ denotes timestamps, subscripts $c$ and $p$ denote current and parent blocks respectively, and $b$ is the block number.
 This suggests that we don't have to store difficulty in the block headers.

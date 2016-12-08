@@ -1,1 +1,12 @@
-We implemented our compression scheme as an extension to go-ethereum client.
+We implemented our compression scheme as an extension to the Go language implementation of the \eth{} client -- \texttt{go-ethereum}~\cite{go-eth}.
+Our main compressor, which is written in Go, reads and parses the blockchain export file,
+applys the reorganizations and field optimizations, and writes the compressed format to output.
+We also have a python script that talks to the Go program to perform Huffman encoding for EVM bytecode.
+We choose python due to limitations of Go when it comes to bit-level and non-byte-aligned operations.
+
+The Go compressor consists of around 350 lines of Go code,
+with the python scripts adding an additional 270 lines of code.
+Our source code is publically available online at
+\url{https://github.com/huangyihe/eth-compressor}
+and
+\url{https://github.com/anithag/compressEVM}.
