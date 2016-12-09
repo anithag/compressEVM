@@ -7,7 +7,7 @@ Our approach is two-fold:
 \end{enumerate*}
 Our evaluation approach enables us to guage the additional gains that are possible by extending the traditional compression programs with blockchain compression feature. 
 We only present the evaluation results in this section and 
-postpone the further discussion until Section~\ref{sec:discuss}. 
+postpone the further discussion until~\autoref{sec:discuss}. 
 
 \paragraph{Ropsten}
 Ropsten is the latest private blockchain aimed as a testnet for the \eth{} developers. It was launched recently and therefore has fewer transactions but characterizes the main blockchain fairly well.\footnote{Launched on Nov 20, 2016.}
@@ -54,10 +54,10 @@ It has about 1.9M blocks and 5M transactions of which 108K (about 2 \%) create n
 \end{figure}
 
 \FloatBarrier
-Table \autoref{tab:origvscustom} shows the size of the blockchains before and after applying our technique. Third and fourth columns show the impact of assigning Huffman codes to EVM opcodes. 
+Table~\ref{tab:origvscustom} shows the size of the blockchains before and after applying our technique. Third and fourth columns show the impact of assigning Huffman codes to EVM opcodes. 
 As expected, using Huffman codes lead to further savings because frequently
 used opcodes now use fewer bits.
-Figure~\ref{fig:origvscustom} shows the percentage gain in space savings due to our technique. This is a standard computation:
+\autoref{fig:origvscustom} shows the percentage gain in space savings due to our technique. This is a standard computation:
 \[ 
 	\text{percentage gain} = \big ( 1 - \frac{\text{size of custom formatted blockchain}}{\text{size of original blockchain}}\big ) \times 100
 \]
