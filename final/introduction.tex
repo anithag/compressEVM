@@ -1,11 +1,14 @@
 
 \eth{} is a public blockchain-based cryptocurrency and supports Turing-complete smart contracts~\cite{ethereum}.
-The blockchain maintains a list of records, called \emph{blocks} and serves as a ledger for all transactions.
+Smart contracts are just like general-purpose programs, but their execution history become part of the immutable public
+ledger, making them suitable for high-assurance applications or even building higher-level cryptocurrencies.
+The \eth{} blockchain maintains a list of records, called \emph{blocks} and serves as a ledger for all transactions.
 The value token of the blockchain is called \emph{ether} and 
 is traded in cryptocurrency exchanges.
 Clients use ether to pay for executing and maintaining the transactions.~\footnote{
 \emph{Finney}, \emph{Szabo}, and \emph{Wei} are the denominations of ether.}
-There are two kinds of \eth{} accounts: 
+
+\eth{} identifies users using addresses, or accounts. There are two types of \eth{} accounts:
 \renewcommand\labelenumi{(\theenumi)}
 \begin{enumerate*}
 	\item \emph{Externally owned accounts} (EOA) and
@@ -13,8 +16,9 @@ There are two kinds of \eth{} accounts:
 \end{enumerate*}
 Contract accounts are special accounts containing the smart contracts in bytecode format, referred to as \emph{EVM bytecode}.
 The bytecode is stack-based and is executed on the \emph{Ethereum Virtual Machine} (EVM).
-Contract accounts comprise around $25\%$ of all \eth{} accounts.~\footnote{
-At the time of writing, number of EOA and contract accounts are 555,043 and 197,261 respectively.}  
+Contract accounts comprise around $25\%$ of all \eth{} accounts.
+At the time of writing, number of EOA and contract accounts are 555,043 and 197,261 respectively.
+These numbers show that smart contracts, as a novel feature, are actively used in the \eth{} network.
 
 %Currently there are around 2,488,503 blocks with size ranging between 1.5KB to 12.5KB~\cite{ethblocksize}.  
 %The blockchain is growing at a rate of 1.2GB/month and
@@ -22,12 +26,22 @@ At the time of writing, number of EOA and contract accounts are 555,043 and 197,
 %Compressing the blockchain can therefore be useful for full client nodes (e.g., IoT, embedded systems with less storage)
 %that download the entire blockchain.
 
-An \eth{} node needs a copy of the entire blockchain to fully participate in the network.
-As the blockchain grows, the time it takes to perform blockchain synchronization from scratch also grows.
+Like many other peer-to-peer cryptocurrency networks, an \eth{} node needs a copy of the entire blockchain to fully participate in the network.
+Each full \eth{} node also has to maintain a state tree so that it can verify
+the validity of transactions and smart contract invocations efficiently.
+The state tree is also used to generate zero-knowledge proofs of these validities, and they will be included as part of a block for
+fast verfication by light clients that don't necessarily have access to the state tree.
+The state tree of a full node can take up as much as 60 GB on the disk and could grow at a rate of 1.2 GB/month~\cite{ethdiskspace}.
+The state tree is fully regeneratable from the blockchain, and its file format is usually incompatible between different client implementations.
+State tree is also completely local, whereas clients have to talk over the network to exchange/synchronize blockchain information.
+For these reasons, we decided not to focus on the space occupied by the state tree.
+Our focus in this project will be on the blockchain only.
+
+As the blockchain grows, the time it takes to perform blockchain synchronization from scratch also increases.
 A simple Google search about \eth{} blockchain synchronization issues yields many results of users complaining about slow syncing time.
 One proposed solution is to offer the full blockchain for download as a file.
-The client can then use the file to perform database update offline.
-The file size, which is around 3.3 GB at the time of writing, may also soon become cumbersome for Internet transfer.
+The client can then use the file to perform a database update offline.
+The blockchain file size, which is around 3.3 GB at the time of writing, may also soon become cumbersome for Internet transfer.
 Compressing the blockchain in this format can therefore be useful to distribute the blockchain more efficiently,
 especially for IoT/embedded devices with limited network capabilities.
 
@@ -39,7 +53,6 @@ Our goal is to come-up with compression techniques that  are specialized for blo
 While we aim to provide a comparative study, we do not conjecture that our compression algorithm always outperforms the
 existing mature compressors.
 We believe that the insights can be added as an extension to be able to get effective compression rates.
-
 %Blockchain compression involves compressing each block.
 %Although compressing a block (and hence transactions) also includes compressing EVM bytecode, 
 %for the sake of exposition we view them as complementary tasks. 
@@ -47,3 +60,8 @@ We believe that the insights can be added as an extension to be able to get effe
 %In Section~\ref{sec:blockcompress} and 
 %Section~\ref{sec:evmcompress}, we   
 %outline the opportunities for compressing \eth{} block and EVM bytecode.
+
+The rest of this paper is structured as follows. In~\autoref{sec:overview}, we provide necessary technical backgounds
+and an overview of our approach to \eth{} blockchain compression. We breifly describe our implementation in~\autoref{sec:implement},
+and present our experiments and findings in~\autoref{sec:evaluation}. We discuss our findings in~\autoref{sec:discuss}, and discuss previous work related to this topic in~\autoref{sec:related}. Finally we conclude our report with possible future directions in~\autoref{sec:future}.
+
