@@ -19,7 +19,10 @@ We now explain each of these components and discuss compression opportunities in
 %We explain how to exploit this redundancy to efficiently encode the block information.
 
 \subsection{Block Header}
-A block header has the following format:
+The block header is the metadata portion of an \eth{} block. The block header contain important
+information about the content of the block, and the hash of the header is usually regarded as the ``block hash''
+used in proof-of-work validation.
+Block headers have the following format:
 \begin{description}
  \item[parentHash:] Hash of the previous block in the main chain
  \item[uncleHash:] Hash of the list of uncles
@@ -34,7 +37,7 @@ A block header has the following format:
  \item[timestamp]
  \item[extraData]
  \item[mixHash:] Special hash for fast verification of block difficulty
- \item[nonce:] Essentially the proof of work
+ \item[nonce:] The proof of work
 \end{description}
 
 The block header contains many redundant information and therefore presents opportunities for efficient encoding.
