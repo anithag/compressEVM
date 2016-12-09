@@ -1,6 +1,14 @@
 
-
 We evaluate our custom compression scheme against Morden, Ropsten and Frontier blockchains.
+Our approach is two-fold:
+\begin{enumerate*}
+	\item We first transform the exported blockchain to our custom format and compare the gains in savings
+	\item We then compress the custom formatted blockchain using traditional compression programs (gzip, bzip2 and xz) and compare the savings obtained by compressing the exported i.e., original blockchain.
+\end{enumerate*}
+Our evaluation approach enables us to guage the additional gains that are possible by extending the traditional compression programs with blockchain compression feature. 
+We only present the evaluation results in this section and 
+postpone the further discussion until Section~\ref{sec:discuss}. 
+
 \paragraph{Ropsten}
 Ropsten is the latest private blockchain aimed as a testnet for the \eth{} developers. It was launched recently and therefore has fewer transactions but characterizes the main blockchain fairly well.\footnote{Launched on Nov 20, 2016.}
 It has about 120K blocks and 170K transactions of which 8.5K (about 5\%) create new contracts.
@@ -14,12 +22,12 @@ Morden is a private blockchain serving as a testnet since the start of \eth{} bl
 It has about 1.9M blocks and 5M transactions of which 108K (about 2 \%) create new contracts. The entire blockchain occupies about 2.1GB.
 
 \newfloatcommand{capbtabbox}{table}[][\FBwidth]
-\begin{figure*}[!t]
+\begin{figure}[!t]
 \CenterFloatBoxes
 \begin{floatrow}
 \capbtabbox{
 	\begin{tabular}{ >{\bfseries}c| p{1.5cm} | p{1.5cm} | p{1.5cm} |p{1.5cm}}
-	Blockchain& {Size of Original File (MB)} & {\par{Size of Custom format \newline (MB)}} & {Size of Custom format with Huffman Encoding (MB)} \\
+	Blockchain& {Size of Original File (MB)} & {\par{Size of Custom format without Huffman Encoding (MB)}} & {Size of Custom format with Huffman Encoding (MB)} \\
   \hline
   Ropsten & 98.6 & 47.8  & 44.4 \\
   Morden & 2160 & 1135.4 &1068.9  \\
@@ -43,20 +51,32 @@ It has about 1.9M blocks and 5M transactions of which 108K (about 2 \%) create n
 \label{fig:origvscustom}
 }
 \end{floatrow}
-\end{figure*}
+\end{figure}
 
 \FloatBarrier
-Table \ref{tab:origvscustom} shows the compression gains obtained after using our technique.
-As can be seen, savings as much as $40\%$ can be seen on the frontier
-blockchain demonstrating the usefulness of our technique.
+Table \ref{tab:origvscustom} shows the size of the blockchains before and after applying our technique. Third and fourth columns show the impact of assigning Huffman codes to EVM opcodes. 
+As expected, using Huffman codes lead to further savings because frequently
+used opcodes now use fewer bits.
+Figure~\ref{fig:origvscustom} shows the percentage gain in space savings due to our technique. This is a standard computation:
+\[ 
+	\text{percentage gain} = \big ( 1 - \frac{\text{size of custom formatted blockchain}}{\text{size of original blockchain}}\big ) \times 100
+\]
+Savings are greater when Huffman code are assigned and are as high as $55\%$ for Ropsten. Even on Frontier blockchain, $40\%$ space savings can be observed demonstrating the usefulness of our technique. 
+Interestingly, Huffman codes did not bring about lot of savings for Frontier ($\sim1\%$) though they result in about $3\%$ additional savings in Morden and Ropsten networks.
+We attribute this to two possibilities:
+\begin{enumerate*}
+	\item Our Huffman code assignment uses the opcode frequency distribution from Morden network. The Frontier network may have a slightly different distribution.
+	\item EVM bytecode occupies about $2\%$ of Morden blockchain, while it is only $1.7\%$. This is probably not a huge difference, but could contribute to smaller savings.
+\end{enumerate*}
+
 
 As mentioned earlier, we do not aim to compete against the existing mature compression tools.
 However, we provide a comparative evaluation of our tool against gzip, bzip2 and xz. 
-Options are tuned for best compression savings, i.e., \emph{gzip -9}, \emph{bzip2 -9} and \emph{xz -9} have been used. 
-Note that the options are only tuned for getting best space savings and therefore an increase in compression time is possible.
-We think this is a reasonable trade-off given that our primary objective is to get best compression savings in terms of space.
+These programs are tuned for best compression savings, i.e., \emph{gzip -9}, \emph{bzip2 -9} and \emph{xz -9} have been used. 
+Note that the options are only tuned for getting best space savings and may result in increased compression times.
+This is a reasonable trade-off given that our primary objective is to get best compression savings in terms of space.
 We also evaluate the compression times to ensure that they are not
-prohibhitively longer.
+prohibitively longer.
 
 \begin{table}[H]
 \centering
@@ -73,7 +93,12 @@ prohibhitively longer.
 \end{table}
 Table~\ref{tab:compropsten} 
 shows the additional compression savings that were possible by compressing 
-our custom format for Ropsten using gzip, bzip2 and xz.
+our custom format for Ropsten.
+First column shows the size of original compressed blockchain 
+while
+second and third columns show the size after compressing the custom formatted blockchain using gzip, bzip2 and xz. 
+As can been, compressing custom format leads to additional $18\%$, $14\%$ and $20\%$ (approximately) gains. Interestingly, all these gains are seen when
+Huffman codes are not used. We discuss this later.
 
 
 
@@ -93,8 +118,9 @@ our custom format for Ropsten using gzip, bzip2 and xz.
 Table~\ref{tab:compmorden} 
 shows the additional compression savings that were possible by compressing 
 our custom format for Morden using gzip, bzip2 and xz.
+As can been, compressing custom format leads to additional $14\%$, $10\%$ and $13\%$  gains. Again, all these gains are seen when Huffman codes are not used. 
 
-\begin{table}
+\begin{table}[H]
 	\centering
 \captionsetup{justification=centering}
 \begin{tabular}{ >{\bfseries}c| p{2cm} | p{2cm} | p{2cm} | p{1.5cm} | p{1.5cm} }
@@ -110,7 +136,15 @@ our custom format for Morden using gzip, bzip2 and xz.
 Table~\ref{tab:compfrontier} 
 shows the additional compression savings that were possible by compressing 
 our custom format for Frontier  using gzip, bzip2 and xz.
-
+As can been, compressing custom format leads to additional $18\%$, $16\%$ and $11\%$  gains. Again, all these gains are seen when
+Huffman codes are not used. It is worth noting that this blockchain
+is the actual \eth{} blockchain and the gains are therefore real.
+Using xz and our custom format, we are able to
+bring down the size of the blockchain from 3.3GB to 1.4GB, 
+resulting in about $58\%$ space savings.
+As the blockchain grows on the orders of giga bytes, these savings are significant.
+In all the above cases above, xz has the best compression performance on the original blockchain. 
+Our custom format enables further improvement ($10-20\%$) even in the best case.
 
 \begin{figure}[H]
 	\includegraphics[scale=0.45]{plots/gzip}
