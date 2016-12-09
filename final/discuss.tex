@@ -42,10 +42,10 @@ Also, Huffman codes are optimal only when the frequencies are powers of 2. This 
 
 \paragraph{Decompression}
 In this project, we do not specifically focus on optimal decompression. 
-Though it may seem that the decompression has more work to do, particularly computing hashes, this does not add significant overhead as computing hashes is fast and architecturally supported on all major platforms.
+Though it may seem that the decompression has more work to do, particularly recomputing hashes and other fields, this does not add significant overhead as computing hashes is fast and architecturally supported on all major platforms.
 
-Also, during decompression, a key-value database is built with all state specific information. This is indeed expensive as it incurs lot of I/O overhead.
-We believe that the hash computation can be amortized during the I/O latency.
+During blockchain import, all \eth{} clients build a key-value database is built with all state specific information. This is indeed expensive as it incurs lot of I/O overhead.
+We can take advantage of the file I/O latency to amortize the hash computation costs during decompression.
 
 
 
@@ -58,10 +58,12 @@ By removing some of the fields in a block,
 our approach might look unacceptable since
 it is now more susceptible to man-in-the-middle attacks. 
 An attacker will now be able to generate their own data for the missing fields and attempt to construct an alternate blockchain.
-Note that the alternate blockchain will now fails consensus and
+Note that the alternate blockchain will now fail consensus and
 thus cannot participate in the \eth{} transactions. 
 Such alternate blockchains can be problematic 
 only if a majority of the nodes collude which is highly unlikely to happen. 
 Also, there are several ways to mitigate such attacks.
-One straightforward way is to include full block headers for a random set of blocks (say a few hundred). The decompressor can now detect that the blockchain has been
-tampered if the hashes do not match.
+One straightforward way is to include full block headers for a random set of blocks (say a few hundred). 
+If the hashes do not match,
+the decompressor can then easily detect  the blockchain has been
+tampered and abort the process.
