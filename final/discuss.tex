@@ -5,11 +5,11 @@ Since we aimed our approach to be as generic as possible, we restricted the scop
 This also shifted our focus to  compressing the block header and non-contract creation transactions as EVM bytecode is now only $2\%$ of the entire blockchain.
 We analyze our evaluation under this context.
 
-Results from Section~\ref{sec:evaluation} show that an additional $10\%$ to $20\%$ savings can be obtained even from the best compression program.
+Results from \autoref{sec:evaluation} show that an additional $10\%$ to $20\%$ savings can be obtained even from the best compression program.
 This strengthens our argument that 
 blockchain compression can indeed benefit from a custom approach.
 
-Table~\ref{tab:origvscustom} shows that using our technique, the blockchain can be compressed by about $50\%$.
+\autoref{tab:origvscustom} shows that using our technique, the blockchain can be compressed by about $50\%$.
 In our experiments, we realized that a large percentage of those savings
 are from compressing the 256 byte Bloom filter.
 It has sparse entries with a majority of 0's which we could compress
