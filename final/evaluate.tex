@@ -199,6 +199,10 @@ In fact, it outperforms in the case of xz which is encouraging.
 	\label{fig:comptime}
 \end{figure}
 \autoref{fig:comptime} shows the compression time for the original and custom formatted blockchains using gzip, bzip2 and xz.
-The dotted green and blue lines show the compression with and without our tool
-overheads. In case of xz the total compression time (including the overhead) is about half the original one.
+The solid red line shows the time taken to compress the original blockchain while 
+dotted green and blue lines show the same with and without our tool
+overheads for custom formatted blockchain. 
+As can be seen, initially, the blue line follows the red line closely
+but shows a huge difference for the `xz' point.
+In the case of xz, the total compression time (including the overhead) is about half the original one, which itself is a significant contribution, considering that xz gives the best compression savings among the three.
 
