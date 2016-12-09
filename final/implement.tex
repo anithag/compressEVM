@@ -1,6 +1,6 @@
 We implemented our compression scheme as an extension to the Go language implementation of the \eth{} client -- \texttt{go-ethereum}~\cite{go-eth}.
 Our main compressor, which is written in Go, reads and parses the blockchain export file,
-applys the reorganizations and field optimizations, and writes the compressed format to output.
+applies the reorganizations and field optimizations, and writes the blockchain in our custom compressed format to output.
 We also have a python script that talks to the Go program to perform Huffman encoding for EVM bytecode.
 We choose python due to limitations of Go when it comes to bit-level and non-byte-aligned operations.
 
@@ -10,3 +10,31 @@ Our source code is publically available online at
 \url{https://github.com/huangyihe/eth-compressor}
 and
 \url{https://github.com/anithag/compressEVM}.
+
+Our custom format performs the following optimizations compared to the original blockchain export format.
+
+\begin{description}
+\item[Field elimitations in block headers:] We elimate \textbf{parentHash}, \textbf{transactionsRoot},
+and \textbf{difficulty} fields in block headers. These fields are redundant and can be computed from
+other information stored in the block header.
+
+\item[Bloom filter compression:] We compress the Bloom filter in \textbf{logsBloom} field using run-length
+encoding to encode repetitive zero bytes.
+
+\item[Collapsing blocks by coinbase reward addresses:] We group blocks by common coinbase reward addresses, and remove
+the \textbf{coinbase} field in block headers. The coinbase is now a key for the ``block group'' within which all blocks
+share the same coinbase reward address.
+
+\item[Collapsing transactions by recepient addresses:] We group transactions within each block by recepient addresses, and
+remove the \textbf{to} field in each transaction. Transactions are now organized in ``transaction groups'' where within
+each group all transactions share the same recepient address.
+
+\item[Payload compression:] EVM bytecode in payload is compressed using Huffman encoding. Message call data is compressed
+using run-length encoding of zero bytes.
+
+\item[Extra data compression:] We also discovered that the \textbf{extraData} field in a block header contains information
+about the client version of the node that first annouced the block to the network. Since there are far less client versions
+than the growing number of blocks, we can compress it further by using a dictionary-like technique. We encode the
+\textbf{extraData} fields using indexes to a table of all detected version strings.
+
+\end{description}

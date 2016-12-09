@@ -67,7 +67,7 @@ Each transaction has the following format:
   \item[to:] Receiver's 160-bit address. The address is empty for contract creation.
   \item[payload:] Additional data for contract-related transactions
   \item[value:] Wei being transferred to the recipient. For contract-related transactions, this field is zero.
-  \item[v,r,s:] Cryptographic signature of the transaction
+  \item[v, r, s:] Cryptographic signature of the transaction
 \end{description}
 
 The \textbf{payload} field contains EVM bytecode as well as message call data for contract-related transactions,
