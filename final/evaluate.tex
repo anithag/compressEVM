@@ -13,7 +13,47 @@ This is the largest blockchain in our evaluation.
 Morden is a private blockchain serving as a testnet since the start of \eth{} blockchain. 
 It has about 1.9M blocks and 5M transactions of which 108K (about 2 \%) create new contracts. The entire blockchain occupies about 2.1GB.
 
-\begin{table*}[!b]
+\newfloatcommand{capbtabbox}{table}[][\FBwidth]
+\begin{figure*}[!t]
+\CenterFloatBoxes
+\begin{floatrow}
+\capbtabbox{
+	\begin{tabular}{ >{\bfseries}c| p{1.5cm} | p{1.5cm} | p{1.5cm} |p{1.5cm}}
+	Blockchain& {Size of Original File (MB)} & {\par{Size of Custom format \newline (MB)}} & {Size of Custom format with Huffman Encoding (MB)} \\
+  \hline
+  Ropsten & 98.6 & 47.8  & 44.4 \\
+  Morden & 2160 & 1135.4 &1068.9  \\
+  Frontier  & 3434.6  & 2069 & 2037.5 \\ 
+\end{tabular}
+%\begin{tabular}{ >{\bfseries}c| p{1.5cm} | p{1.5cm} | p{1.5cm} |p{1.5cm} |p{1.5cm} }
+%	Blockchain& {Size of Original File (MB)} & {\par{Size of Custom format \newline (MB)}} & {Size of Custom format with Huffman Encoding (MB)} & \par{Percentage Gain without Huffman Encoding}  & \par{Percentage Gain with Huffman Encoding} \\
+%  \hline
+%  Ropsten & 98.6 & 47.8  & 44.4 &51.5  & 55.0\\
+%  Morden & 2160 & 1135.4 &1068.9 & 47.4 & 50.5 \\
+%  Frontier  & 3434.6  & 2069 & 2037.5 & 39.6 & 40.7\\
+%\end{tabular}
+}{
+\caption{Compression using our custom format with and without Huffman encoding} 
+\label{tab:origvscustom}
+}
+\ffigbox{
+	\includegraphics[scale=0.45]{plots/customgains}
+	%\rule{3cm}{3cm}
+}{ \caption{Percentage gains}
+\label{fig:origvscustom}
+}
+\end{floatrow}
+\end{figure*}
+
+\FloatBarrier
+Table \ref{tab:origvscustom} shows the compression gains obtained after using our technique.
+As can be seen, savings as much as $40\%$ can be seen on the frontier
+blockchain demonstrating the usefulness of our technique.
+
+As mentioned earlier, we do not aim to compete against the existing mature compression tools.
+However, we provide a comparative evaluation of our tool against gzip, bzip2 and xz. 
+
+\begin{table}[H]
 \centering
 \captionsetup{justification=centering}
 \begin{tabular}{ >{\bfseries}c| p{2cm} | p{2cm} |p{2cm} | p{1.5cm} | p{1.5cm} }
@@ -25,32 +65,14 @@ It has about 1.9M blocks and 5M transactions of which 108K (about 2 \%) create n
 \end{tabular}
 \caption{Compression of Ropsten testnet. \\ Original Size = 98.6MB. Custom format size = 47.8MB}
 \label{tab:compropsten}
-\end{table*}
-
-\FloatBarrier
-Table \ref{tab:origvscustom} shows the compression gains obtained after using our technique.
-As can be seen, savings as much as $40\%$ can be seen on the frontier
-blockchain demonstrating the usefulness of our technique.
-
-As mentioned earlier, we do not aim to compete against the existing mature compression tools.
-However, we provide a comparative evaluation of our tool against gzip, bzip2 and xz. 
-
+\end{table}
 Table~\ref{tab:compropsten} 
 shows the additional compression savings that were possible by compressing 
 our custom format for Ropsten using gzip, bzip2 and xz.
 
-Table~\ref{tab:compmorden} 
-shows the additional compression savings that were possible by compressing 
-our custom format for Morden using gzip, bzip2 and xz.
-
-Table~\ref{tab:compfrontier} 
-shows the additional compression savings that were possible by compressing 
-our custom format for Frontier  using gzip, bzip2 and xz.
 
 
-
-
-\begin{table*}[!t]
+\begin{table}[H]
 \centering
 \captionsetup{justification=centering}
 \begin{tabular}{ >{\bfseries}c| p{2cm} | p{2cm} | p{2cm} | p{1.5cm} | p{1.5cm} }
@@ -62,9 +84,12 @@ our custom format for Frontier  using gzip, bzip2 and xz.
 \end{tabular}
 \caption{Compression of Morden testnet. \\Original Size = 2160MB. Custom format size = 1135.4MB}
 \label{tab:compmorden}
-\end{table*}
+\end{table}
+Table~\ref{tab:compmorden} 
+shows the additional compression savings that were possible by compressing 
+our custom format for Morden using gzip, bzip2 and xz.
 
-\begin{table*}[!b]
+\begin{table}
 	\centering
 \captionsetup{justification=centering}
 \begin{tabular}{ >{\bfseries}c| p{2cm} | p{2cm} | p{2cm} | p{1.5cm} | p{1.5cm} }
@@ -76,7 +101,11 @@ our custom format for Frontier  using gzip, bzip2 and xz.
 \end{tabular}
 \caption{Compression of Frontier mainnet. \\ Original Size = 3434.6MB. Custom format size = 2069MB}
 \label{tab:compfrontier}
-\end{table*}
+\end{table}
+Table~\ref{tab:compfrontier} 
+shows the additional compression savings that were possible by compressing 
+our custom format for Frontier  using gzip, bzip2 and xz.
+
 
 We summarize the additional compression gains for each compression scheme in Figure~\ref{fig:gzip}, Figure~\ref{fig:bzip2} and Figure~\ref{fig:xz}. 
 As we can see, the results are encouraging and show room for improvement.
@@ -105,14 +134,6 @@ The runtime performance of our tool is proportional to the total number of block
 To generate the custom format without Huffman encoding, it takes about 150 seconds to generate the custom format and with Huffman encoding it takes about 250 seconds. 
 
 
-Table~\ref{tab:comptime} compares the time taken to compress the binaries before and after applying our technique. As expected, it is less for binaries that are in custom format. 
-To make a fair comparison, we should also include the time taken to create the custom format i.e., 150 and 250 seconds depending on whether Huffman encoding is turned on.
-Note that our tool is a prototype and is not optimized for runtime performance. 
-Yet, the performance is comparable. 
-In fact, it outperforms in the case of xz which is encouraging.
-Figure~\ref{comptime} shows the same graphically. The dotted green and blue lines show the compression with and without our tool
-overheads. In case of xz the total compression time (including the overhead) is about half the original one.
-
 
 \begin{table}[H]
 	\centering
@@ -126,9 +147,18 @@ overheads. In case of xz the total compression time (including the overhead) is 
 	\caption{Compression time in seconds}
 	\label{tab:comptime}
 \end{table}
-\begin{figure}
+Table~\ref{tab:comptime} compares the time taken to compress the binaries before and after applying our technique. As expected, it is less for binaries that are in custom format. 
+To make a fair comparison, we should also include the time taken to create the custom format i.e., 150 and 250 seconds depending on whether Huffman encoding is turned on.
+Note that our tool is a prototype and is not optimized for runtime performance. 
+Yet, the performance is comparable. 
+In fact, it outperforms in the case of xz which is encouraging.
+\begin{figure}[H]
 	\centering
-	\includegraphics[width=\textwidth]{plots/time}
+	\includegraphics[width=0.5\textwidth, scale=0.5]{plots/time}
 	\caption{Compression time in seconds}
 	\label{fig:comptime}
 \end{figure}
+Figure~\ref{fig:comptime} shows the compression time for the original and custom formatted blockchains using gzip, bzip2 and xz.
+The dotted green and blue lines show the compression with and without our tool
+overheads. In case of xz the total compression time (including the overhead) is about half the original one.
+

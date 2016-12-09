@@ -97,6 +97,7 @@
 % \terms
 % term1, term2
 
+%\onecolumn
 \section{Introduction} \label{sec:intro}
 \input{introduction}
 %\input{evmintro}
@@ -106,38 +107,6 @@
 
 \section{Implementation}\label{sec:implement}
 \input{implement}
-
-\newfloatcommand{capbtabbox}{table}[][\FBwidth]
-\begin{figure*}[!t]
-\CenterFloatBoxes
-\begin{floatrow}
-\capbtabbox{
-	\begin{tabular}{ >{\bfseries}c| p{1.5cm} | p{1.5cm} | p{1.5cm} |p{1.5cm}}
-	Blockchain& {Size of Original File (MB)} & {\par{Size of Custom format \newline (MB)}} & {Size of Custom format with Huffman Encoding (MB)} \\
-  \hline
-  Ropsten & 98.6 & 47.8  & 44.4 \\
-  Morden & 2160 & 1135.4 &1068.9  \\
-  Frontier  & 3434.6  & 2069 & 2037.5 \\ 
-\end{tabular}
-%\begin{tabular}{ >{\bfseries}c| p{1.5cm} | p{1.5cm} | p{1.5cm} |p{1.5cm} |p{1.5cm} }
-%	Blockchain& {Size of Original File (MB)} & {\par{Size of Custom format \newline (MB)}} & {Size of Custom format with Huffman Encoding (MB)} & \par{Percentage Gain without Huffman Encoding}  & \par{Percentage Gain with Huffman Encoding} \\
-%  \hline
-%  Ropsten & 98.6 & 47.8  & 44.4 &51.5  & 55.0\\
-%  Morden & 2160 & 1135.4 &1068.9 & 47.4 & 50.5 \\
-%  Frontier  & 3434.6  & 2069 & 2037.5 & 39.6 & 40.7\\
-%\end{tabular}
-}{
-\caption{Compression using our custom format with and without Huffman encoding} 
-\label{tab:origvscustom}
-}
-\ffigbox{
-	\includegraphics[scale=0.45]{plots/customgains}
-	%\rule{3cm}{3cm}
-}{ \caption{Percentage gains}
-\label{fig:origvscustom}
-}
-\end{floatrow}
-\end{figure*}
 
 \section{Evaluation}\label{sec:evaluation}
 \input{evaluate}
