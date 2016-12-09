@@ -1,1 +1,53 @@
-Discuss our results here
+We initially proposed that a blockchain is amenable to better compression because of the substantial presence of the EVM bytecode.
+However, as mentioned earlier, we found that the blockchain in the case of \eth{} is also informally used to refer to the state tree (which stores the global state of all transactions).
+Moreover, blockchain maintained by one \eth{} client is not compatible with another due to the presence of client-specific information.
+Since we aimed our approach to be as generic as possible, we restricted the scope of the project to compressing the canonical blockchain, which contains only blocks but not any state information. 
+This also shifted our focus to  compressing the block header and non-contract creation transactions as EVM bytecode is now only $2\%$ of the entire blockchain.
+We analyze our evaluation under this context.
+
+Results from Section~\ref{sec:evaluation} show that an additional $10\%$ to $20\%$ savings can be obtained even from the best compression program.
+This strengthens our argument that 
+blockchain compression can indeed benefit from a custom approach.
+
+Table~\ref{tab:origvscustom} shows that using our technique, the blockchain can be compressed by about $50\%$.
+In our experiments, we realized that a large percentage of those savings
+are from compressing the 256 byte Bloom filter.
+It has sparse entries with a majority of 0's which we could compress
+away using a variant of run-length encoding.
+We believe that the existing compression programs are also able to exploit
+the redundancy in Bloom filter. As such this is not particularly one of 
+our significant contributions.
+
+\paragraph{Where are additional gains possible?}
+A significant amount of additional gain is made possible due to the following 
+heuristics.
+\begin{enumerate}
+\item Many blocks are mined by only a handful of miners. This implies that reorganizing blockchain by coinbase address can help us remove the redundancy associated with recording this information. This can save as much as 32 bytes per block.
+
+\item A block with multiple transactions is likely to have same receiver. As such, if the transactions are grouped by the receiver, again an additional 32 bytes can be saved per transaction (in a block).
+\end{enumerate}
+
+In particular, the former heuristic made the additional gains possible. 
+We believe these heuristics are domain-specific and hence general-purpose
+compression programs may not be able to take advantage of them.
+
+\paragraph{Why does not Huffman Encoding improve results?}
+Though EVM bytecode currently contributes to only $2\%$ of the entire blockchain, it may increase in the future, given the adoption rate of \eth{}  in the finance sector.\footnote{To be specific, banks adopting the distributed ledger technology.} 
+
+We carried out bytecode specific compression techniques. Much to our surprise, the additional gains decreased by as much as $8\%$ (in the case of gzip).
+This seemed counter-intuitive initially. Upon analyzing, we hypothesize that
+because of the prefix-property of the newly assigned Huffman codes, the entropy increases.
+Also, Huffman codes are optimal only when the frequencies are powers of 2. This need not hold in the case of blockchain.
+
+
+\paragraph{Decompression}
+In this project, we do not specifically focus on optimal decompression. 
+Though it may seem that the decompression has more work to do, particularly computing hashes, this does not add significant overhead as computing hashes is fast and architecturally supported on all major platforms.
+
+Also, during decompression, a key-value database is built with all state specific information. This is indeed expensive as it incurs lot of I/O overhead.
+We believe that the hash computation can be amortized during the I/O latency.
+
+
+
+\paragraph{Security implications}
+
