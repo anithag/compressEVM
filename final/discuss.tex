@@ -67,3 +67,15 @@ One straightforward way is to include full block headers for a random set of blo
 If the hashes do not match,
 the decompressor can then easily detect  the blockchain has been
 tampered and abort the process.
+
+\paragraph{How generic is our technique}
+
+The principles guiding our custom format are quite generic and can be easily
+extended with minimal changes to other cryptocurrencies like Bitcoin, litecoin etc that use blockchain technology. 
+In these blockchains, it is a common pattern that majority of the blocks are mined by a group of miners. As such, rearranging the blockchain by coinbase (or equivalent term) should result in significant space savings.
+Also, within a block, rearranging transactions by recipient is also 
+quite generic.
+If the block header specifies \emph{transaction sender} information, then
+it may also be worth considering to group transactions by sender.
+Exploring the relationships between the fields of a block and transaction
+may provide additional opportunity for compression. 
