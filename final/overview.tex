@@ -23,22 +23,26 @@ The block header is the metadata portion of an \eth{} block. The block header co
 information about the content of the block, and the hash of the header is usually regarded as the ``block hash''
 used in proof-of-work validation.
 Block headers have the following format:
-\begin{description}
- \item[parentHash:] Hash of the previous block in the main chain
- \item[uncleHash:] Hash of the list of uncles
- \item[stateRoot:] Merkle-tree root for fast verification of transactions
- \item[transactionsRoot:] Hash of the list of transactions
- \item[coinbase:] Address to which the coinbase reward (mining reward) is paid to
- \item[logsBloom:] Bloom filter for log entries
- \item[difficulty:] Proof-of-work difficulty of this block
- \item[number:] Height of this block
- \item[gasLimit:] Scalar value limiting the gas expenditure
- \item[gasUsed:] Scalar value indicating the total gas used by all transactions in the block
- \item[timestamp]
- \item[extraData]
- \item[mixHash:] Special hash for fast verification of block difficulty
- \item[nonce:] The proof of work
-\end{description}
+
+\begin{table}[H]
+	\centering
+\begin{tabular}{>{\bfseries}l c l}
+ parentHash&:& Hash of the previous block in the main chain\\
+ uncleHash&:& Hash of the list of uncles\\
+ stateRoot&:& Merkle-tree root for fast verification of transactions\\
+ transactionsRoot&:& Hash of the list of transactions\\
+ coinbase&:& Address to which the coinbase reward (mining reward) is paid to\\
+ logsBloom&:& Bloom filter for log entries\\
+ difficulty&:& Proof-of-work difficulty of this block\\
+ number&:& Height of this block\\
+ gasLimit&:& Scalar value limiting the gas expenditure\\
+ gasUsed&:& Scalar value indicating the total gas used by all transactions in the block\\
+ timestamp&:&\\
+ extraData&:&\\
+ mixHash&:& Special hash for fast verification of block difficulty\\
+ nonce&:& The proof of work\\
+\end{tabular}
+\end{table}
 
 The block header contains many redundant information and therefore presents opportunities for efficient encoding.
 The \textbf{difficulty} field, for exmaple, can be computed using the following equation according to~\cite{ethereum}.
@@ -63,15 +67,19 @@ In our implementation, we used run-length encoding to encode such zero bytes in 
 A transaction is a signed message indicating some action like account transfer or contract execution.
 Transactions are much more compressible and can be a major source of compression gains.
 Each transaction has the following format:
-\begin{description}
-  \item[nonce:] A scalar value representing number of transactions associated with this account
-  \item[gasPrice:] Default value is $0.02\times10^{12}$ Wei. Though clients can set their own gasPrice, most of the transactions use default value suggesting the high probability of its occurance
-  \item[gasLimit:] Maximum gas that can be used for executing this transaction
-  \item[to:] Receiver's 160-bit address. The address is empty for contract creation.
-  \item[payload:] Additional data for contract-related transactions
-  \item[value:] Wei being transferred to the recipient. For contract-related transactions, this field is zero.
-  \item[v, r, s:] Cryptographic signature of the transaction
-\end{description}
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{>{\bfseries}l c p{0.8\textwidth}}
+  nonce&:& A scalar value representing number of transactions associated with this account\\
+	gasPrice&:& \par{Default value is $0.02\times10^{12}$ Wei. Though clients can set their own gasPrice, most of the transactions use default value suggesting the high probability of its occurance} \\
+  gasLimit&:& Maximum gas that can be used for executing this transaction\\
+  to&:& Receiver's 160-bit address. The address is empty for contract creation.\\
+  payload&:& Additional data for contract-related transactions\\
+  value&:& Wei being transferred to the recipient. For contract-related transactions, this field is zero.\\
+  v, r, s&:& Cryptographic signature of the transaction\\
+\end{tabular}
+\end{table}
 
 The \textbf{payload} field contains EVM bytecode as well as message call data for contract-related transactions,
 both are highly compressable. We decided to use Huffman encoding to reduce the footprint of EVM bytecode,
