@@ -1,0 +1,11 @@
+Ethereum blockchain uses bloom filter to easily search the log entries of all transactions in a block.
+Currently, we are only using a variant of run-length encoding to compress the Bloom filter, since it is sparse anyway. 
+\citep{mitzenmacher:2001} describe a more sophisticated Bloom filter compression technique by tuning the number of hash functions to be used. 
+In future, we plan to use this technique to further reduce the number of bits to be broadcast to full nodes.
+In particular, we think that coming up with a different number of hash functions (go-ethereum uses 3 hash functions) can compress the Bloom filter more effectively.
+
+We also plan to focus on improving the runtime performance of our tool for compressing and decompressing the blockchain.
+Using techniques for hiding the I/O latencies of file I/O, we can amortize 
+the overhead incurred for decompressing the blockchain.
+
+
