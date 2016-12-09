@@ -2,7 +2,7 @@ We initially proposed that a blockchain is amenable to better compression becaus
 However, as mentioned earlier, we found that the blockchain in the case of \eth{} is also informally used to refer to the state tree (which stores the global state of all transactions).
 Moreover, blockchain maintained by one \eth{} client is not compatible with another due to the presence of client-specific information.
 Since we aimed our approach to be as generic as possible, we restricted the scope of the project to compressing the canonical blockchain, which contains only blocks but not any state information. 
-This also shifted our focus to  compressing the block header and non-contract creation transactions as EVM bytecode is now only $2\%$ of the entire blockchain.
+This also shifted our focus to  compressing the block header and non-contract creation transactions as EVM bytecode is now only $9\%$ of the entire blockchain.
 We analyze our evaluation under this context.
 
 Results from \autoref{sec:evaluation} show that an additional $10\%$ to $20\%$ savings can be obtained even from the best compression program.

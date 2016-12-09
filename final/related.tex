@@ -27,7 +27,7 @@ F. Aslam et al.~\cite{aslam2010} proposed a JVM compaction mechanism to overcome
 It utilizes unused opcode encoding space to extend the JVM bytecode with new instructions that represent bundles of
 instructions that often appear together, or common opcode-operand pairs within the same instruction.
 The compaction scheme is different from traditional compression in that it does not require decompression before executing,
-but requires an augmented JVM instead. It was shown that bytecode compaction can reduce code size for up to 58\%.
+but requires an augmented JVM instead. It was shown that bytecode compaction can reduce code size for up to $58\%$.
 
 M. Latendresse and M. Feeley~\cite{marc2003} applied Huffman encoding to JVM bytecode, and designed interpreters that
 can execute bytecode in compressed form by decompressing on-the-fly.
@@ -57,7 +57,7 @@ similar to gzip.
 We decided not to delve too much into the topic EVM bytecode compression because of our observation that standardized
 algorithms like gzip can already do amazingly well. Our analysis show that gzip alone can compress the EVM bytecode
 portion of the blockchain by $83.1\%$, making it extremely difficult for us to improve upon.
-Additionally, EVM bytecode only occupies $\sim13\%$ of the size of the exported blockchain file,
+Additionally, EVM bytecode only occupies $\sim8\%$ of the size of the exported Frontier blockchain ($\sim 13\%$ for Morden blockchain),
 making any additional gains in compressing the bytecode very insignificant.
 We therefore shifted our focus to other aspects of the blockchain, like elimiating redundancies in block headers
 and transactions.
