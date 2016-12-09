@@ -45,7 +45,7 @@ Block headers have the following format:
 \end{table}
 
 The block header contains many redundant information and therefore presents opportunities for efficient encoding.
-The \textbf{difficulty} field, for exmaple, can be computed using the following equation according to~\cite{ethereum}.
+The \textbf{difficulty} field, for example, can be computed using the following equation according to~\cite{ethereum}.
 
 $$
 D_{c} = D_{p} + \dfrac{D_{p}}{2^{11}\cdot\max\left(\dfrac{1 - (ts_{c} - ts_{p})}{10}, -99\right)} + 2^{b/10^5-2}
@@ -72,7 +72,7 @@ Each transaction has the following format:
 	\centering
 	\begin{tabular}{>{\bfseries}l c p{0.8\textwidth}}
   nonce&:& A scalar value representing number of transactions associated with this account\\
-	gasPrice&:& \par{Default value is $0.02\times10^{12}$ Wei. Though clients can set their own gasPrice, most of the transactions use default value suggesting the high probability of its occurance} \\
+	gasPrice&:& \par{Default value is $0.02\times10^{12}$ Wei. Though clients can set their own gasPrice, most of the transactions use default value suggesting the high probability of its occurrence} \\
   gasLimit&:& Maximum gas that can be used for executing this transaction\\
   to&:& Receiver's 160-bit address. The address is empty for contract creation.\\
   payload&:& Additional data for contract-related transactions\\
@@ -82,8 +82,8 @@ Each transaction has the following format:
 \end{table}
 
 The \textbf{payload} field contains EVM bytecode as well as message call data for contract-related transactions,
-both are highly compressable. We decided to use Huffman encoding to reduce the footprint of EVM bytecode,
-and apply the more sophiscated gzip compression on top of that.
+both are highly compressible. We decided to use Huffman encoding to reduce the footprint of EVM bytecode,
+and apply the more sophisticated gzip compression on top of that.
 For message call transactions, the \textbf{payload} field contains message call data that represent a method ID and
 parameters supplied to the contract method being invoked.
 Message call data have a large number of zero bytes, because \eth{} uses 256-bit integers,

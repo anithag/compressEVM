@@ -33,7 +33,7 @@ and
 
 Our custom format performs the following optimizations compared to the original blockchain export format.
 
-\paragraph{Field elimitations in block headers} We elimate \textbf{parentHash}, \textbf{transactionsRoot},
+\paragraph{Field eliminations in block headers} We eliminate \textbf{parentHash}, \textbf{transactionsRoot},
 and \textbf{difficulty} fields in block headers. These fields are redundant and can be computed from
 other information stored in the block header.
 
@@ -44,14 +44,14 @@ encoding to encode repetitive zero bytes.
 the \textbf{coinbase} field in block headers. The coinbase is now a key for the ``block group'' within which all blocks
 share the same coinbase reward address.
 
-\paragraph{Collapsing transactions by recepient addresses} We group transactions within each block by recepient addresses, and
+\paragraph{Collapsing transactions by recipient addresses} We group transactions within each block by recipient addresses, and
 remove the \textbf{to} field in each transaction. Transactions are now organized in ``transaction groups'' where within
-each group all transactions share the same recepient address.
+each group all transactions share the same recipient address.
 
 \paragraph{Payload compression} EVM bytecode in payload is compressed using Huffman encoding. Message call data is compressed
 using run-length encoding of zero bytes.
 
 \paragraph{Extra data compression} We also discovered that the \textbf{extraData} field in a block header contains information
-about the client version of the node that first annouced the block to the network. Since there are far less client versions
+about the client version of the node that first announced the block to the network. Since there are far less client versions
 than the growing number of blocks, we can compress it further by using a dictionary-like technique. We encode the
 \textbf{extraData} fields using indexes to a table of all detected version strings.
