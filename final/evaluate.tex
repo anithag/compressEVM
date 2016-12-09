@@ -52,6 +52,11 @@ blockchain demonstrating the usefulness of our technique.
 
 As mentioned earlier, we do not aim to compete against the existing mature compression tools.
 However, we provide a comparative evaluation of our tool against gzip, bzip2 and xz. 
+Options are tuned for best compression savings, i.e., \emph{gzip -9}, \emph{bzip2 -9} and \emph{xz -9} have been used. 
+Note that the options are only tuned for getting best space savings and therefore an increase in compression time is possible.
+We think this is a reasonable trade-off given that our primary objective is to get best compression savings in terms of space.
+We also evaluate the compression times to ensure that they are not
+prohibhitively longer.
 
 \begin{table}[H]
 \centering
@@ -107,29 +112,28 @@ shows the additional compression savings that were possible by compressing
 our custom format for Frontier  using gzip, bzip2 and xz.
 
 
-We summarize the additional compression gains for each compression scheme in Figure~\ref{fig:gzip}, Figure~\ref{fig:bzip2} and Figure~\ref{fig:xz}. 
-As we can see, the results are encouraging and show room for improvement.
-
-\pagebreak
-\begin{figure}
+\begin{figure}[H]
 	\includegraphics[scale=0.45]{plots/gzip}
 	\caption{Additional compression gains (\%) using gzip}
 	\label{fig:gzip}
 \end{figure}
-\begin{figure}
+\begin{figure}[H]
+	\begin{subfigure}{0.52\textwidth}
 	\includegraphics[scale=0.45]{plots/bzip2}
 	\caption{Additional compression gains (\%) using bzip2}
 	\label{fig:bzip2}
-\end{figure}
-\begin{figure}
+\end{subfigure}
+\begin{subfigure}{0.45\textwidth} 
 	\includegraphics[scale=0.45]{plots/xz}
 	\caption{Additional compression gains (\%) using xz}
 	\label{fig:xz}
+\end{subfigure}
 \end{figure}
+We summarize the additional compression gains for each compression scheme in Figure~\ref{fig:gzip}, Figure~\ref{fig:bzip2} and Figure~\ref{fig:xz}. 
+As we can see, the results are encouraging and show room for improvement upto $20\%$ (Ropsten in xz).
 
-To demonstrate the feasibility of our approach, we also measure the compression time. 
-For brevity, we only 
-present the values for compressing Morden blockchain.
+To demonstrate the feasibility of our approach, we also measure the time taken for compression. 
+For brevity, we only present the values for compressing Morden blockchain.
 The runtime performance of our tool is proportional to the total number of blocks and transactions. 
 To generate the custom format without Huffman encoding, it takes about 150 seconds to generate the custom format and with Huffman encoding it takes about 250 seconds. 
 
@@ -149,7 +153,7 @@ To generate the custom format without Huffman encoding, it takes about 150 secon
 \end{table}
 Table~\ref{tab:comptime} compares the time taken to compress the binaries before and after applying our technique. As expected, it is less for binaries that are in custom format. 
 To make a fair comparison, we should also include the time taken to create the custom format i.e., 150 and 250 seconds depending on whether Huffman encoding is turned on.
-Note that our tool is a prototype and is not optimized for runtime performance. 
+It is worth noting that our tool is a prototype and is not optimized for runtime performance. 
 Yet, the performance is comparable. 
 In fact, it outperforms in the case of xz which is encouraging.
 \begin{figure}[H]
