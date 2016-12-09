@@ -4,6 +4,26 @@ applies the reorganizations and field optimizations, and writes the blockchain i
 We also have a python script that talks to the Go program to perform Huffman encoding for EVM bytecode.
 We choose python due to limitations of Go when it comes to bit-level and non-byte-aligned operations.
 
+To determine the proper Huffman codes to replace default EVM bytecode opcodes, we use a python program to scan the blockchain
+and collect frequency information about the opcodes. The top 6 most frequently used opcodes and their corresponding encodings
+are shown in~\autoref{tab:huffman-top6}.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{ c | c | c | c }
+	Rank & {Opcode Name} & {Original Encoding} & {Huffman Encoding} \\
+\hline
+1 & push1   & 0110 0000 & 100\\
+2 & stop    & 0000 0000 & 000\\
+3 & add     & 0000 0001 & 0111\\
+4 & swap1   & 1001 0000 & 0011\\
+5 & suicide & 1111 1111 & 11111\\
+6 & pop     & 0101 0000 & 11101\\
+\end{tabular}
+\caption{Top 6 most frequently used opcodes in EVM bytecode among all transactions.}
+\label{tab:huffman-top6}
+\end{table}
+
 The Go compressor consists of around 350 lines of Go code,
 with the python scripts adding an additional 270 lines of code.
 Our source code is publically available online at
