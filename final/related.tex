@@ -4,7 +4,7 @@ surprisingly very little effort is seen towards compressing the size of the bloc
 Much effort is focused on changing the underlying protocol so that clients
 do not have to store and process the full blockchain to verify the transactions~\cite{lightclient, ultimate}.
 By contrast, we focus on compressing the blockchain without changing the underlying protocol.
-\emph{Merkelized Abstract Syntax Trees} (MAST) have been proposed to reduce the the amount of script included in redemption
+\emph{Merkelized Abstract Syntax Trees} (MAST) have been proposed to reduce the amount of script included in redemption
 type of Bitcoin transactions~\cite{mast}. 
 However, this seems to be a issue specific to Bitcoin protocol.  
 \eth{} does not include any scripts in message call transactions and so  MAST structures are probably not helpful.
@@ -12,7 +12,7 @@ To the best of our knowledge, we aren't aware of any other special blockchain co
 
 A recent study by Bergman and Zohar~\cite{bergman2015compressing} on email compression
 reveals insights similar to ours in a different setting.
-They also discovered that reordering email messages by recepient domains helps improve
+They also discovered that reordering email messages by recipient domains helps improve
 the performance of general-purpose compression algorithms.
 Their explicit handling of ``inter-message similarities'' is also similar to our effort of reorganizing blocks by common fields.
 We take on the more difficult task of compressing the \eth{} blockchain,
@@ -59,7 +59,7 @@ algorithms like gzip can already do amazingly well. Our analysis show that gzip 
 portion of the blockchain by $83.1\%$, making it extremely difficult for us to improve upon.
 Additionally, EVM bytecode only occupies $\sim8\%$ of the size of the exported Frontier blockchain ($\sim 13\%$ for Morden blockchain),
 making any additional gains in compressing the bytecode very insignificant.
-We therefore shifted our focus to other aspects of the blockchain, like elimiating redundancies in block headers
+We therefore shifted our focus to other aspects of the blockchain, like eliminating redundancies in block headers
 and transactions.
 %Most of the ideas in previous work on JVM bytecode compression are applicable to EVM bytecode. EVM bytecode, however, are
 %both simpler and more complex at the same time, potentially requiring some special treatment. For example, EVM bytecode deals
