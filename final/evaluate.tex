@@ -151,17 +151,19 @@ Our custom format enables further improvement ($10-20\%$) even in the best case.
 	\caption{Additional compression gains (\%) using gzip}
 	\label{fig:gzip}
 \end{figure}
+
 \begin{figure}[H]
-	\begin{subfigure}{0.52\textwidth}
-	\includegraphics[scale=0.45]{plots/bzip2}
+\begin{subfigure}{0.45\textwidth}
+	\includegraphics[width=\textwidth]{plots/bzip2}
 	\caption{Additional compression gains (\%) using bzip2}
 	\label{fig:bzip2}
 \end{subfigure}
-\begin{subfigure}{0.45\textwidth} 
-	\includegraphics[scale=0.45]{plots/xz}
+\begin{subfigure}{0.45\textwidth}
+	\includegraphics[width=\textwidth]{plots/xz}
 	\caption{Additional compression gains (\%) using xz}
 	\label{fig:xz}
 \end{subfigure}
+\caption{ }
 \end{figure}
 We summarize the additional compression gains for each compression scheme in \autoref{fig:gzip}, \autoref{fig:bzip2} and \autoref{fig:xz}.
 As we can see, the results are encouraging and show room for improvement upto $20\%$ (Ropsten in xz).
