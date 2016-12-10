@@ -31,7 +31,7 @@ Each full \eth{} node also has to maintain a state tree so that it can verify
 the validity of transactions and smart contract invocations efficiently.
 The state tree is also used to generate zero-knowledge proofs of these validities, and they will be included as part of a block for
 fast verfication by light clients that don't necessarily have access to the state tree.
-The state tree of a full node can take up as much as 60 GB on the disk and could grow at a rate of 1.2 GB/month~\cite{ethdiskspace}.
+The state tree of a full node can take up as much as 60GB on the disk and could grow at a rate of 1.2GB/month~\cite{ethdiskspace}.
 The state tree is fully regeneratable from the blockchain, and its file format is usually incompatible between different client implementations.
 State tree is also completely local, whereas clients have to talk over the network to exchange/synchronize blockchain information.
 For these reasons, we decided not to focus on the space occupied by the state tree.
@@ -41,7 +41,7 @@ As the blockchain grows, the time it takes to perform blockchain synchronization
 A simple Google search about \eth{} blockchain synchronization issues yields many results of users complaining about slow syncing time.
 One proposed solution is to offer the full blockchain for download as a file.
 The client can then use the file to perform a database update offline.
-The blockchain file size, which is around 3.3 GB at the time of writing, may also soon become cumbersome for Internet transfer.
+The blockchain file size, which is around 3.3GB at the time of writing, may also soon become cumbersome for Internet transfer.
 Compressing the blockchain in this format can therefore be useful to distribute the blockchain more efficiently,
 especially for IoT/embedded devices with limited network capabilities.
 
