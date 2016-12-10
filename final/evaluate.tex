@@ -45,7 +45,7 @@ It has about 1.9M blocks and 5M transactions of which 108K (about 2 \%) create n
 \label{tab:origvscustom}
 }
 \ffigbox{
-	\includegraphics[scale=0.39]{plots/customgains}
+	\includegraphics[scale=0.39]{plots/customgains.eps}
 	%\rule{3cm}{3cm}
 }{ \caption{Percentage gains}
 \label{fig:origvscustom}
@@ -115,10 +115,10 @@ Huffman codes are not used. We discuss this later.
 \caption{Compression of Morden testnet. \\Original Size = 2160MB. Custom format size = 1135.4MB}
 \label{tab:compmorden}
 \end{table}
-\autoref{tab:compmorden} 
-shows the additional compression savings that were possible by compressing 
+\autoref{tab:compmorden}
+shows the additional compression savings that were possible by compressing
 our custom format for Morden using gzip, bzip2 and xz.
-As can been, compressing custom format leads to additional $14\%$, $10\%$ and $13\%$  gains. Again, all these gains are seen when Huffman codes are not used. 
+As can been, compressing custom format leads to additional $14\%$, $10\%$ and $13\%$  gains. Again, all these gains are seen when Huffman codes are not used.
 
 \begin{table}[H]
 	\centering
@@ -134,32 +134,32 @@ As can been, compressing custom format leads to additional $14\%$, $10\%$ and $1
 \label{tab:compfrontier}
 \end{table}
 \autoref{tab:compfrontier} 
-shows the additional compression savings that were possible by compressing 
+shows the additional compression savings that were possible by compressing
 our custom format for Frontier  using gzip, bzip2 and xz.
 As can been, compressing custom format leads to additional $18\%$, $16\%$ and $11\%$  gains. Again, all these gains are seen when
 Huffman codes are not used. It is worth noting that this blockchain
 is the actual \eth{} blockchain and the gains are therefore real.
 Using xz and our custom format, we are able to
-bring down the size of the blockchain from 3.3GB to 1.4GB, 
+bring down the size of the blockchain from 3.3GB to 1.4GB,
 resulting in about $58\%$ space savings.
 As the blockchain grows on the orders of gigabytes, these savings are significant.
-In all the above cases above, xz has the best compression performance on the original blockchain. 
+In all the above cases above, xz has the best compression performance on the original blockchain.
 Our custom format enables further improvement ($10-20\%$) even in the best case.
 
 \begin{figure}[H]
-	\includegraphics[scale=0.45]{plots/gzip}
+	\includegraphics[scale=0.45]{plots/gzip.eps}
 	\caption{Additional compression gains (\%) using gzip}
 	\label{fig:gzip}
 \end{figure}
 
 \begin{figure}[H]
 \begin{subfigure}{0.45\textwidth}
-	\includegraphics[width=\textwidth]{plots/bzip2-vanilla}
+	\includegraphics[width=\textwidth]{plots/bzip2.eps}
 	\caption{Additional compression gains (\%) using bzip2}
 	\label{fig:bzip2}
 \end{subfigure}
 \begin{subfigure}{0.45\textwidth}
-	\includegraphics[width=\textwidth]{plots/xz-vanilla}
+	\includegraphics[width=\textwidth]{plots/xz.eps}
 	\caption{Additional compression gains (\%) using xz}
 	\label{fig:xz}
 \end{subfigure}
@@ -194,7 +194,7 @@ Yet, the performance is comparable.
 In fact, it outperforms in the case of xz which is encouraging.
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.5\textwidth, scale=0.5]{plots/time}
+	\includegraphics[width=0.5\textwidth, scale=0.5]{plots/time.eps}
 	\caption{Compression time in seconds}
 	\label{fig:comptime}
 \end{figure}
