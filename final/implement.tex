@@ -55,3 +55,16 @@ using run-length encoding of zero bytes.
 about the client version of the node that first announced the block to the network. Since there are far less client versions
 than the growing number of blocks, we can compress it further by using a dictionary-like technique. We encode the
 \textbf{extraData} fields using indexes to a table of all detected version strings.
+
+\subsection{Decompression}
+We briefly sketch the basic decompression methodology. 
+Recovering the original blockchain is fairly straightforward but imposes the ordering that a parent block is first recovered before the child block.
+Within a block, transactions are first ungrouped because the computation of \textbf{transactionsRoot} is dependent on them.
+Block reconstruction starts with the genesis block, i.e., block height is 0. 
+Hashes are computed (recall that these hashes are deterministic) and missing fields
+fields like \textbf{coinbase}, \textbf{difficulty}, \textbf{parentHash}, \textbf{transactionsRoot} etc., are populated. 
+The child block is then searched using the next block height (i.e., parent block height + 1)
+and the process is repeated iteratively until all blocks are reconstructed.
+Though there is room for improvement, we do not focus beyond the correctness criteria for now.
+Optimizing decompression for runtime performance is left as future work.
+
